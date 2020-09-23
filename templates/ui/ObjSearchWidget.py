@@ -1,3 +1,10 @@
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apotekia.settings')
+django.setup()
+
+from catalog.models import Product
+
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLineEdit,
                              QListWidget, QPushButton)
 
@@ -39,9 +46,9 @@ class ListResultsWidget(QListWidget):
         self.load_data()
 
     def load_data(self):
-        data = ['item{}'.format(i) for i in range(30)]
+        data = Product.objects.all()
         for i in data:
-            self.addItem(i)
+            self.addItem(i.title)
 
 
 class ObjectSearchWidget(QWidget):

@@ -2,9 +2,11 @@ import sys
 from PyQt5.QtCore    import Qt, QRect
 from PyQt5.QtGui     import QColor, QPainter
 from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction,
-                             QVBoxLayout, QTabWidget, QFileDialog, QPlainTextEdit, QHBoxLayout, QLabel)
+                             QVBoxLayout, QTabWidget, QFileDialog, QPlainTextEdit, QHBoxLayout, QLabel, QPushButton,
+                             QSizePolicy)
 
 from templates.ui.ObjSearchWidget import ObjectSearchWidget
+from apotekia.settings import APPS
 
 lineBarColor       = QColor(53, 53, 53)
 lineHighlightColor = QColor('#00FF04')
@@ -104,9 +106,14 @@ class ModuleMenu(QWidget):
 
     def initUI(self):
         self.layout = QVBoxLayout()
-        self.label = QLabel('Modules widget')
+        for app in APPS:
+            button = QPushButton(app.upper())
+            button.setMaximumWidth(215)
+            button.setMinimumWidth(125)
+            button.setMaximumHeight(75)
+            button.setMinimumHeight(50)
+            self.layout.addWidget(button)
 
-        self.layout.addWidget(self.label)
         self.setLayout(self.layout)
 
 

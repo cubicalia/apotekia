@@ -9,8 +9,6 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.open()
-        self.tabs = MyTableWidget()
-        self.setCentralWidget(self.tabs)
         self.initUI()
         self.show()
 
@@ -18,6 +16,8 @@ class MainWindow(QMainWindow):
         self.statusBar()
         self.addMenu()
         self.resize(800, 600)
+        self.tabs = MyTableWidget()
+        self.setCentralWidget(self.tabs)
 
     def addMenu(self):
         menu = self.menuBar()

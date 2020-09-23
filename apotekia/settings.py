@@ -30,6 +30,19 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+APPS = [
+        'customers',
+        'catalog',
+        'inventory',
+        'returns',
+        'sales',
+        'suppliers',
+        ]
+
+DEBUG_APPS = [
+        'import_export',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,14 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'customers',
-    'catalog',
-    'inventory',
-    'returns',
-    'sales',
-    'suppliers',
-]
+] + APPS
+if DEBUG:
+    INSTALLED_APPS = INSTALLED_APPS + DEBUG_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

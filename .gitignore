@@ -1,1 +1,17 @@
 /db.sqlite3
+/static/
+apotekia/__pycache__/
+catalog/__pycache__/
+catalog/migrations/__pycache__/
+customers/__pycache__/
+customers/migrations/__pycache__/
+inventory/__pycache__/
+inventory/migrations/__pycache__/
+returns/__pycache__/
+returns/migrations/__pycache__/
+sales/__pycache__/
+sales/migrations/__pycache__/
+script.py
+suppliers/__pycache__/
+suppliers/migrations/__pycache__/
+templates/ui/__pycache__/
