@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLa
     QPlainTextEdit, QHBoxLayout
 from PyQt5.QtCore import Qt, QSize
 from templates.ui.MainScreenWidget import MyTableWidget, Content
+from templates.ui.CentralWidget import CentralWidget
 
 
 class MainWindow(QMainWindow):
@@ -15,7 +16,7 @@ class MainWindow(QMainWindow):
         self.statusBar()
         self.addMenu()
         self.resize(800, 600)
-        self.tabs = MyTableWidget()
+        self.tabs = CentralWidget()
         self.setCentralWidget(self.tabs)
 
     def addMenu(self):

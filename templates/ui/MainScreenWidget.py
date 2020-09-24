@@ -106,13 +106,13 @@ class ModuleMenu(QWidget):
 
     def initUI(self):
         self.layout = QVBoxLayout()
-        for app in APPS:
-            button = QPushButton(app.upper())
-            button.setMaximumWidth(215)
-            button.setMinimumWidth(125)
-            button.setMaximumHeight(75)
-            button.setMinimumHeight(50)
-            self.layout.addWidget(button)
+
+        button = QPushButton('SALES')
+        button.setMaximumWidth(215)
+        button.setMinimumWidth(125)
+        button.setMaximumHeight(75)
+        button.setMinimumHeight(50)
+        self.layout.addWidget(button)
 
         self.setLayout(self.layout)
 
