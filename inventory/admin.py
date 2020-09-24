@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import InventoryLocation, InventoryCustomerPurchaseExit, InventorySupplierReturnOrder
+from .models import InventoryLocation, InventoryTable, InventoryEntry
 
 admin.site.register(InventoryLocation)
-admin.site.register(InventorySupplierReturnOrder)
-admin.site.register(InventoryCustomerPurchaseExit)
+admin.site.register(InventoryTable)
+admin.site.register(InventoryEntry)
 
