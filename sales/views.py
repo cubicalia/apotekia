@@ -20,14 +20,14 @@ class PointOfSaleWidget(QWidget):
 
     def initUI(self):
         self.layout = QHBoxLayout()
-        self.vbox1()
-        self.layout.addWidget(self.vbox1)
+        self.vbox_1()
+        self.layout.addItem(self.vbox)
         self.setLayout(self.layout)
 
     def vbox_1(self):
-        vbox = QVBoxLayout()
+        self.vbox = QVBoxLayout()
         # Client search widget
-        vbox.addWidget(ObjectSearchWidget())
+        self.vbox.addWidget(ObjectSearchWidget())
         # Product Search Widget
-        vbox.addWidget(ObjectSearchWidget())
-        self.layout.addWidget(vbox)
+        self.vbox.addWidget(ObjectSearchWidget())
+        self.layout.addItem(self.vbox)

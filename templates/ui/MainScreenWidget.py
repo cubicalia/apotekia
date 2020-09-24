@@ -130,7 +130,7 @@ class MyTableWidget(QWidget):
         self.tabs = TabWidget()
         self.tabs.resize(300, 200)
 
-        # Add tabs
+        # Close tabs
         self.tabs.setTabsClosable(True)
         self.tabs.tabCloseRequested.connect(self.closeTab)
 
