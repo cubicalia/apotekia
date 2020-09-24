@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtCore    import Qt, QRect
-from PyQt5.QtGui     import QColor, QPainter
+from PyQt5.QtCore import Qt, QRect
+from PyQt5.QtGui import QColor, QPainter
 from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction,
                              QVBoxLayout, QTabWidget, QFileDialog, QPlainTextEdit, QHBoxLayout, QLabel, QPushButton,
                              QSizePolicy)
@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction,
 from templates.ui.ObjSearchWidget import ObjectSearchWidget
 from apotekia.settings import APPS
 
-lineBarColor       = QColor(53, 53, 53)
+lineBarColor = QColor(53, 53, 53)
 lineHighlightColor = QColor('#00FF04')
 
 

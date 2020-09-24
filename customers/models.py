@@ -10,7 +10,7 @@ class Customer(models.Model):
     email = models.EmailField(_('Email'), blank=True)
     address = models.TextField(_('Address'), blank=True)
     city = models.CharField(_('City'), max_length=128, blank=True)
-    country = models.CharField(_('Country'),max_length=128, blank=True, default='Morocco')
+    country = models.CharField(_('Country'), max_length=128, blank=True, default='Morocco')
 
     def __str__(self):
         return self.get_full_name()

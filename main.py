@@ -8,7 +8,6 @@ from templates.ui.MainScreenWidget import MyTableWidget, Content
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-        self.open()
         self.initUI()
         self.show()
 
@@ -21,8 +20,33 @@ class MainWindow(QMainWindow):
 
     def addMenu(self):
         menu = self.menuBar()
+
+        # FILE MENU
         fileMenu = menu.addMenu('File')
+
+        self.newSaleAction = QAction('New sale...', self)
+        self.newSaleAction.setShortcut('Ctrl+N')
+        self.newSaleAction.setStatusTip('Crete a new sale')
+        fileMenu.addAction(self.newSaleAction)
+
+        self.openAct = QAction('Open...', self)
+        self.openAct.setShortcut('Ctrl+O')
+        self.openAct.setStatusTip('Open a file')
+        self.is_opened = False
+        self.openAct.triggered.connect(self.openFile)
         fileMenu.addAction(self.openAct)
+
+        # EDIT MENU
+        edit_menu = menu.addMenu('Edit')
+        edit_menu.addAction('Copy')
+
+        # VIEW MENU
+        view_menu = menu.addMenu('View')
+        view_menu.addAction('Dashboard')
+
+        # PHARMACY MENU
+        pharmacy_menu = menu.addMenu('Pharmacy')
+        pharmacy_menu.addAction('My Profile')
 
     def closeTab(self, index):
         tab = self.tabs.widget(index)
@@ -31,13 +55,6 @@ class MainWindow(QMainWindow):
 
     def buttonClicked(self):
         self.tabs.addTab(Content("smalltext2"), "sadsad")
-
-    def open(self):
-        self.openAct = QAction('Open...', self)
-        self.openAct.setShortcut('Ctrl+O')
-        self.openAct.setStatusTip('Open a file')
-        self.is_opened = False
-        self.openAct.triggered.connect(self.openFile)
 
     def openFile(self):
         options = QFileDialog.Options()

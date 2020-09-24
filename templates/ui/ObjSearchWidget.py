@@ -4,9 +4,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apotekia.settings')
 django.setup()
 
 from catalog.models import Product
+from customers.models import Customer
 
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLineEdit,
                              QListWidget, QPushButton)
+
+from templates.ui.communication.notifications import AlertBox
 
 
 class FooterButtons(QWidget):
@@ -17,6 +20,7 @@ class FooterButtons(QWidget):
     def initUI(self):
         self.layout = QHBoxLayout()
         self.add_button = QPushButton('Add entry')
+        self.add_button.clicked.connect(self.add_action)
         self.edit_button = QPushButton('Edit entry')
         self.delete_button = QPushButton('Delete entry')
 
@@ -26,8 +30,8 @@ class FooterButtons(QWidget):
 
         self.setLayout(self.layout)
 
-    def open_action(self):
-        pass
+    def add_action(self):
+        AlertBox('Hello world')
 
     def edit_action(self):
         pass
@@ -37,8 +41,9 @@ class FooterButtons(QWidget):
 
 
 class ListResultsWidget(QListWidget):
-    def __init__(self, parent=None):
+    def __init__(self, model, parent=None):
         super().__init__(parent)
+        self.model = model
         self.initUI()
 
     def initUI(self):
@@ -46,9 +51,9 @@ class ListResultsWidget(QListWidget):
         self.load_data()
 
     def load_data(self):
-        data = Product.objects.all()
+        data = self.model.objects.all()
         for i in data:
-            self.addItem(i.title)
+            self.addItem(i.__str__())
 
 
 class ObjectSearchWidget(QWidget):
@@ -60,7 +65,7 @@ class ObjectSearchWidget(QWidget):
         self.layout = QVBoxLayout()
 
         self.search_field = QLineEdit()
-        self.list_resuls = ListResultsWidget()
+        self.list_resuls = ListResultsWidget(Customer)
         self.buttons_footer = FooterButtons()
 
         self.layout.addWidget(self.search_field)
