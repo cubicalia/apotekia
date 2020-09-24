@@ -11,13 +11,12 @@ class InventoryLocation(models.Model):
         verbose_name = _("Inventory Location")
         verbose_name_plural = _("Inventory Locations")
 
-
     def __str__(self):
         return 'Location: ' + self.name
 
 
 class InventoryTable(models.Model):
-    location = models.ForeignKey('inventory.InventoryLocation', on_delete=models.CASCADE)
+    location = models.ForeignKey('inventory.InventoryLocation', on_delete=models.PROTECT)
     date = models.DateTimeField(_('Date and time of entries'))
 
     class Meta:
