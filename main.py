@@ -1,7 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QAction, QFileDialog, \
-    QPlainTextEdit, QHBoxLayout
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QFileDialog
 from templates.ui.MainScreenWidget import MyTableWidget, Content
 
 
