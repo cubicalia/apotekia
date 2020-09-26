@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QFileDialog
 from templates.ui.MainScreenWidget import MyTableWidget, Content
 
+from customers.views import CustomerSearchDialog
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):

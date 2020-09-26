@@ -3,9 +3,10 @@ from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QColor, QPainter
 from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction,
                              QVBoxLayout, QTabWidget, QFileDialog, QPlainTextEdit, QHBoxLayout, QLabel, QPushButton,
-                             QSizePolicy)
+                             QSizePolicy, QGridLayout)
 
 from templates.ui.ObjSearchWidget import ObjectSearchWidget
+from customers.views import CustomerSearchDialog
 from apotekia.settings import APPS
 
 lineBarColor = QColor(53, 53, 53)
@@ -127,22 +128,10 @@ class MyTableWidget(QWidget):
         self.layout = QHBoxLayout(self)
         # Initialize tab screen
         self.module_menu = ModuleMenu()
-        self.tabs = TabWidget()
-        self.tabs.resize(300, 200)
-
-        # Add tabs
-        self.tabs.setTabsClosable(True)
-        self.tabs.tabCloseRequested.connect(self.closeTab)
+        self.pos = CustomerSearchDialog()
 
         # Add tabs to widget
         self.layout.addWidget(self.module_menu)
-        self.layout.addWidget(self.tabs)
+        self.layout.addWidget(self.pos)
+
         self.setLayout(self.layout)
-
-    def closeTab(self, index):
-        tab = self.tabs.widget(index)
-        tab.deleteLater()
-        self.tabs.removeTab(index)
-
-    def addTab(self, content, fileName):
-        self.tabs.addTab(Content(str(content)), str(fileName))

@@ -1,8 +1,4 @@
-import os
-import django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apotekia.settings')
-django.setup()
-
+from apotekia import db_setup
 import sys
 
 from PyQt5.QtWidgets import QDialog, QApplication
