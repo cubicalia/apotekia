@@ -58,7 +58,6 @@ class CustomerSearchDialog(QDialog):
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_selectionChanged(self, selected):
-        print("selected: ")
         for item in selected.indexes():
             if item:
                 self.ui.CustomerSelectionLabel.setText(item.data())
