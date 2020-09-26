@@ -13,9 +13,10 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.statusBar()
-        self.resize(800, 600)
-        self.tabs = CentralWidget()
-        self.setCentralWidget(self.tabs)
+        self.resize(1200, 800)
+        self.central = CentralWidget()
+        self.setCentralWidget(self.central)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

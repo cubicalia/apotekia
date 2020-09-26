@@ -14,6 +14,8 @@ class CustomerSearchDialog(QDialog):
         super(CustomerSearchDialog, self).__init__()
 
         # Set up the user interface from Designer.
+
+
         self.fields = []
         self.data = Customer.objects.all()
         self.model = QStandardItemModel(len(self.data), 1)

@@ -2,12 +2,12 @@ from apotekia import db_setup
 
 from PyQt5.QtCore import Qt, pyqtSlot, QSortFilterProxyModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from templates.ui.CustomerSearch import Ui_CustomerSearchWidget
 from.models import Customer
 
 
-class CustomerSearchDialog(QDialog):
+class CustomerSearchDialog(QWidget):
     def __init__(self):
         super(CustomerSearchDialog, self).__init__()
 

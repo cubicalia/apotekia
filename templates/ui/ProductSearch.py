@@ -27,10 +27,9 @@ class Ui_ProductSearchWidget(object):
         self.SearchField = QtWidgets.QLineEdit(self.ProductSearchGroupBox)
         self.SearchField.setObjectName("SearchField")
         self.gridLayout_3.addWidget(self.SearchField, 0, 1, 1, 3)
-        self.ResultsTable = QtWidgets.QTableWidget(self.ProductSearchGroupBox)
+        self.ResultsTable = QtWidgets.QTableView(self.ProductSearchGroupBox)
         self.ResultsTable.setObjectName("ResultsTable")
-        self.ResultsTable.setColumnCount(0)
-        self.ResultsTable.setRowCount(0)
+
         self.gridLayout_3.addWidget(self.ResultsTable, 1, 0, 1, 4)
         self.SelectionLabel = QtWidgets.QLabel(self.ProductSearchGroupBox)
         self.SelectionLabel.setObjectName("SelectionLabel")
