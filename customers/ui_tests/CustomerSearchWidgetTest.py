@@ -1,17 +1,21 @@
 from apotekia import db_setup
+import sys
 
-from PyQt5.QtCore import Qt, pyqtSlot, QSortFilterProxyModel
+from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from templates.ui.CustomerSearch import Ui_CustomerSearchWidget
-from.models import Customer
+
+from customers.models import Customer
 
 
-class CustomerSearchDialog(QWidget):
+class CustomerSearchDialog(QDialog):
     def __init__(self):
         super(CustomerSearchDialog, self).__init__()
 
         # Set up the user interface from Designer.
+
+
         self.fields = []
         self.data = Customer.objects.all()
         self.model = QStandardItemModel(len(self.data), 1)
@@ -58,8 +62,18 @@ class CustomerSearchDialog(QWidget):
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_selectionChanged(self, selected):
+        print("selected: ")
         for item in selected.indexes():
             if item:
                 self.ui.CustomerSelectionLabel.setText(item.data())
                 self.selected = item.data()
                 print(self.selected)
+
+
+app = QApplication(sys.argv)
+window = CustomerSearchDialog()
+# ui = CustomerSearchDialog()
+# ui.setupUi(window)
+
+window.show()
+sys.exit(app.exec_())

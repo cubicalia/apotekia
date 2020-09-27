@@ -25,7 +25,7 @@ class InventoryTable(models.Model):
         verbose_name_plural = _("Inventory Table Entries")
 
     def __str__(self):
-        return self.location, ': ', self.date, ''
+        return str(self.location) + ': ' + str(self.date) + ''
 
 
 class InventoryEntry(models.Model):
@@ -39,4 +39,4 @@ class InventoryEntry(models.Model):
         verbose_name_plural = _("Inventory Table Entries")
 
     def __str__(self):
-        return self.table, ': ', self.product, '', str(self.qty)
+        return str(self.table) + ': ' + str(self.product) + ' ---qty: ' + str(self.qty)
