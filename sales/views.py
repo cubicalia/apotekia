@@ -1,18 +1,13 @@
 from apotekia import db_setup
-import sys
 
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget
-from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import QWidget
 from templates.ui.BasketWidget import Ui_Form
 from templates.ui.TotalsFormWidget import Ui_TotalsWidget
 
-from sales.models import Basket, BasketLine
 
-
-class BasketPOSDialog(QWidget):
+class BasketPOSWidget(QWidget):
     def __init__(self):
-        super(BasketPOSDialog, self).__init__()
+        super(BasketPOSWidget, self).__init__()
         self.initUI()
 
     def initUI(self):
@@ -20,9 +15,9 @@ class BasketPOSDialog(QWidget):
         self.ui.setupUi(self)
 
 
-class DisplayPOSTotalsDialog(QWidget):
+class DisplayPOSTotalsWidget(QWidget):
     def __init__(self):
-        super(DisplayPOSTotalsDialog, self).__init__()
+        super(DisplayPOSTotalsWidget, self).__init__()
         self.initUI()
 
     def initUI(self):

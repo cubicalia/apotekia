@@ -1,10 +1,10 @@
 from apotekia import db_setup
 
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QGridLayout, QWidget
 
 from customers.views import CustomerSearchDialog
 from catalog.views import ProductSearchDialog
-from sales.views import BasketPOSDialog, DisplayPOSTotalsDialog
+from sales.views import BasketPOSWidget, DisplayPOSTotalsWidget
 
 
 class POS(QWidget):
@@ -16,8 +16,8 @@ class POS(QWidget):
         # Initiaite Widgets
         self.product_search = ProductSearchDialog()
         self.customer_search = CustomerSearchDialog()
-        self.basket_widget = BasketPOSDialog()
-        self.totals_widget = DisplayPOSTotalsDialog()
+        self.basket_widget = BasketPOSWidget()
+        self.totals_widget = DisplayPOSTotalsWidget()
 
         # Layout Widgets
         self.layout.addWidget(self.product_search, 1, 1, 1, 2)

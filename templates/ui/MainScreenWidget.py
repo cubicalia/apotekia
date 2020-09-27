@@ -1,13 +1,7 @@
-import sys
-from PyQt5.QtCore import Qt, QRect
-from PyQt5.QtGui import QColor, QPainter
-from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QAction,
-                             QVBoxLayout, QTabWidget, QFileDialog, QPlainTextEdit, QHBoxLayout, QLabel, QPushButton,
-                             QSizePolicy, QGridLayout)
+from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton)
 
 from pos.views import POS
-from templates.ui.ObjSearchWidget import ObjectSearchWidget
-from customers.views import CustomerSearchDialog
 from apotekia.settings import APPS
 
 lineBarColor = QColor(53, 53, 53)
