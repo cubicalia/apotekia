@@ -1,6 +1,4 @@
 from apotekia import db_setup
-import sys
-
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
