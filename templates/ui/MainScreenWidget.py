@@ -17,6 +17,7 @@ lineHighlightColor = QColor('#00FF04')
 class ModuleMenu(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setMaximumWidth(250)
         self.initUI()
 
     def initUI(self):

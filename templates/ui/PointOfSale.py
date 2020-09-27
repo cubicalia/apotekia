@@ -199,6 +199,7 @@ class Ui_MainWindow(object):
         self.pushButton_25.setMaximumSize(QtCore.QSize(16777215, 65))
         self.pushButton_25.setObjectName("pushButton_25")
         self.gridLayout_2.addWidget(self.pushButton_25, 3, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.pushButton_25, 3, 0, 1, 1)
         self.pushButton_26 = QtWidgets.QPushButton(self.groupBox_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -388,6 +389,7 @@ class Ui_MainWindow(object):
         self.pushButton_20.setObjectName("pushButton_20")
         self.gridLayout.addWidget(self.pushButton_20, 3, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 1, 0, 1, 3)
+
         self.lcdNumber = QtWidgets.QLCDNumber(self.groupBox_2)
         self.lcdNumber.setMinimumSize(QtCore.QSize(0, 81))
         self.lcdNumber.setMaximumSize(QtCore.QSize(16777215, 101))
