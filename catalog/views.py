@@ -12,7 +12,7 @@ from catalog.models import Product
 class ProductSearchDialog(QWidget):
     def __init__(self):
         super(ProductSearchDialog, self).__init__()
-
+        self.setMinimumHeight(400)
         # Set up the user interface from Designer.
 
         self.fields = []
