@@ -1,7 +1,7 @@
 from apotekia import db_setup
 import sys
 
-from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from templates.ui.ProductSearch import Ui_ProductSearchWidget
@@ -9,7 +9,7 @@ from templates.ui.ProductSearch import Ui_ProductSearchWidget
 from catalog.models import Product
 
 
-class ProductSearchDialog(QDialog):
+class ProductSearchDialog(QWidget):
     def __init__(self):
         super(ProductSearchDialog, self).__init__()
 
@@ -67,12 +67,3 @@ class ProductSearchDialog(QDialog):
                 self.ui.SelectionLabel.setText(item.data())
                 self.selected = item.data()
                 print(self.selected)
-
-
-app = QApplication(sys.argv)
-window = ProductSearchDialog()
-# ui = CustomerSearchDialog()
-# ui.setupUi(window)
-
-window.show()
-sys.exit(app.exec_())

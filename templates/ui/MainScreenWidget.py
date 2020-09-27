@@ -34,8 +34,8 @@ class ModuleMenu(QWidget):
 
 class CentralWidget(QWidget):
 
-    def __init__(self, parent=None):
-        super(QWidget, self).__init__(parent)
+    def __init__(self):
+        super(CentralWidget, self).__init__()
         self.initUI()
 
     def initUI(self):
