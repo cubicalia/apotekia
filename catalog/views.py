@@ -1,6 +1,4 @@
 from apotekia import db_setup
-import sys
-
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -12,7 +10,7 @@ from catalog.models import Product
 class ProductSearchDialog(QWidget):
     def __init__(self):
         super(ProductSearchDialog, self).__init__()
-
+        self.setMinimumHeight(400)
         # Set up the user interface from Designer.
 
         self.fields = []

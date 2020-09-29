@@ -20,9 +20,9 @@ class POS(QWidget):
         self.totals_widget = DisplayPOSTotalsWidget()
 
         # Layout Widgets
-        self.layout.addWidget(self.product_search, 1, 1, 1, 2)
-        self.layout.addWidget(self.customer_search, 2, 1, 1, 1)
-        self.layout.addWidget(self.basket_widget, 1, 3, 2, 1)
-        self.layout.addWidget(self.totals_widget, 2, 2, 1, 1)
+        self.layout.addWidget(self.product_search, 1, 1, 2, 2)
+        self.layout.addWidget(self.customer_search, 3, 1, 1, 1)
+        self.layout.addWidget(self.basket_widget, 1, 3, 3, 1)
+        self.layout.addWidget(self.totals_widget, 3, 2, 1, 1)
 
         self.setLayout(self.layout)
