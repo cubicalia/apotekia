@@ -1,6 +1,8 @@
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSizePolicy)
+from inventory.views import InventoryDialog
 
+from templates.ui.ModulesWidget import ModulesUI
 from pos.views import POS
 from apotekia.settings import APPS
 
@@ -9,22 +11,21 @@ lineHighlightColor = QColor('#00FF04')
 
 
 class ModuleMenu(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setMaximumWidth(250)
+    def __init__(self):
+        super(ModuleMenu, self).__init__()
+        self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         self.initUI()
 
     def initUI(self):
-        self.layout = QVBoxLayout()
-        for app in APPS:
-            button = QPushButton(app.upper())
-            button.setMaximumWidth(215)
-            button.setMinimumWidth(125)
-            button.setMaximumHeight(75)
-            button.setMinimumHeight(50)
-            self.layout.addWidget(button)
+        self.ui = ModulesUI()
+        self.ui.setupUi(self)
 
-        self.setLayout(self.layout)
+        self.ui.pushButton_3.clicked.connect(self.open_dialog)
+
+    def open_dialog(self):
+        dialog = InventoryDialog()
+        dialog.exec_()
+        dialog.show()
 
 
 class CentralWidget(QWidget):
