@@ -1,6 +1,7 @@
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSizePolicy)
 from inventory.views import InventoryDialog
+from catalog.views import ProductDialog
 
 from templates.ui.ModulesWidget import ModulesUI
 from pos.views import POS
@@ -20,10 +21,16 @@ class ModuleMenu(QWidget):
         self.ui = ModulesUI()
         self.ui.setupUi(self)
 
-        self.ui.pushButton_3.clicked.connect(self.open_dialog)
+        self.ui.pushButton_3.clicked.connect(self.open_inventory_dialog)
+        self.ui.pushButton_2.clicked.connect(self.open_catalog_dialog)
 
-    def open_dialog(self):
+    def open_inventory_dialog(self):
         dialog = InventoryDialog()
+        dialog.exec_()
+        dialog.show()
+
+    def open_catalog_dialog(self):
+        dialog = ProductDialog()
         dialog.exec_()
         dialog.show()
 

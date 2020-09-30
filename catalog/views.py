@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from templates.ui.ProductSearch import Ui_ProductSearchWidget
+from templates.ui.ProductsWidget import Ui_ProductDialog
 
 from catalog.models import Product
 
@@ -65,3 +66,15 @@ class ProductSearchDialog(QWidget):
                 self.ui.SelectionLabel.setText(item.data())
                 self.selected = item.data()
                 print(self.selected)
+
+
+class ProductDialog(QDialog):
+    def __init__(self):
+        super(ProductDialog, self).__init__()
+        self.products = Product.objects.all()
+
+        self.initUI()
+
+    def initUI(self):
+        self.ui = Ui_ProductDialog()
+        self.ui.setupUi(self)
