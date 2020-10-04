@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 APPS = [
+        'banking',
         'customers',
         'catalog',
         'inventory',
