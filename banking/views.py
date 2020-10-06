@@ -13,7 +13,7 @@ class BankingDialog(QDialog):
 
         self.accounts = BankAccount.objects.all()
         self.model = QStandardItemModel(len(self.accounts), 1)
-        self.model.setHorizontalHeaderLabels(['Accounts', 'Balance'])
+        self.model.setHorizontalHeaderLabels(['REF', 'Accounts', 'Balance'])
         self.populate_model()
 
         self.initUI()
@@ -30,11 +30,13 @@ class BankingDialog(QDialog):
 
     def populate_model(self):
         for row, account in enumerate(self.accounts):
-            # print(str(account))
+            # print(str(account.id))
+            ref = QStandardItem(str(account.id))
             item = QStandardItem(str(account.account_name))
-            balance = QStandardItem(str(account.current_balance) + ' MAD')
-            self.model.setItem(row, 0, item)
-            self.model.setItem(row, 1, balance)
+            balance = QStandardItem(str(account.initial_balance) + ' MAD')
+            self.model.setItem(row, 0, ref)
+            self.model.setItem(row, 1, item)
+            self.model.setItem(row, 2, balance)
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_selectionChanged(self, selected):
@@ -42,7 +44,7 @@ class BankingDialog(QDialog):
         if item:
             self.selected = item.data()
             # self.show_movements(item.data())
-            selected_account = BankAccount.objects.get(account_name=item.data())
+            selected_account = BankAccount.objects.get(id=item.data())
             print(selected_account)
             self.ui.Acoount_Name.setText(selected_account.account_name)
             self.ui.Account_number.setText(selected_account.account_number)
@@ -65,7 +67,7 @@ class AddBankAccountForm(QDialog):
         self.ui = Ui_AddBankAccount()
         self.ui.setupUi(self)
         self.ui.pushButton_2.clicked.connect(self.close)
-        self.ui.pushButton.clicked.connect(self.validate_form_data)
+        self.ui.pushButton.clicked.connect(self.save_form_data)
 
     def get_form_data(self):
         ref = self.ui.refLineEdit.text()
@@ -102,7 +104,7 @@ class AddBankAccountForm(QDialog):
     def validate_form_data(self):
         data_dict = self.get_form_data()
         if len(data_dict['account_name']) >= 3:
-            print('Account Name Valid')
+            print(int(data_dict['initial_balance']))
         else:
             print('Account Name Invalid')
 
@@ -115,7 +117,9 @@ class AddBankAccountForm(QDialog):
                                    bank=data['bank'],
                                    IBAN_number=data['IBAN'],
                                    Swift_code=data['BIC_SWIFT'],
-                                   initial_balance=int(data['initial_balance']),
+                                   initial_balance=float(data['initial_balance']),
                                    proprietary=data['proprietary'],
                                    proprietary_address=data['proprietary_address'])
         bank_account.save()
+        if self.validate_form_data():
+            self.close()
