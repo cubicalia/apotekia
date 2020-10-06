@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddBankAccount</class>
+ <widget class="QWidget" name="AddBankAccount">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>484</width>
+    <height>669</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add Bank Account</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="1">
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>Accept</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="3">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Account Info</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="refLineEdit"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="accountNameLabel">
+        <property name="text">
+         <string>Account Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="accountNameLineEdit">
+        <property name="tabletTracking">
+         <bool>true</bool>
+        </property>
+        <property name="maxLength">
+         <number>40</number>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="accountTypeLabel">
+        <property name="text">
+         <string>Account Type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QComboBox" name="accountTypeComboBox">
+        <item>
+         <property name="text">
+          <string>Bank Account</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Savings Account</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cash Account</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="stateLabel">
+        <property name="text">
+         <string>State</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QCheckBox" name="stateCheckBox">
+        <property name="text">
+         <string>Active</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="initialBalanceLabel">
+        <property name="text">
+         <string>Initial Balance</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="QLineEdit" name="initialBalanceLineEdit">
+        <property name="inputMask">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="dateOpenedLabel">
+        <property name="text">
+         <string>Date Opened</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QDateEdit" name="dateOpenedDateEdit">
+        <property name="dateTime">
+         <datetime>
+          <hour>0</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2020</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="displayFormat">
+         <string>YYYY-MM-dd</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+        <property name="currentSectionIndex">
+         <number>-2</number>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="bankLabel">
+        <property name="text">
+         <string>Bank</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QLineEdit" name="bankLineEdit"/>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="accountNumberLabel">
+        <property name="text">
+         <string>Account Number</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="QLineEdit" name="accountNumberLineEdit"/>
+      </item>
+      <item row="16" column="0">
+       <widget class="QLabel" name="iBANCodeLabel">
+        <property name="text">
+         <string>IBAN Code</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="QLineEdit" name="iBANCodeLineEdit"/>
+      </item>
+      <item row="17" column="0">
+       <widget class="QLabel" name="bICSWIFTCodeLabel">
+        <property name="text">
+         <string>BIC/SWIFT Code</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1">
+       <widget class="QLineEdit" name="bICSWIFTCodeLineEdit"/>
+      </item>
+      <item row="18" column="0">
+       <widget class="QLabel" name="sucursalAddressLabel">
+        <property name="text">
+         <string>Agency Address</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="0">
+       <widget class="QLabel" name="accountProprietaryLabel">
+        <property name="text">
+         <string>Account Proprietary</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="1">
+       <widget class="QLineEdit" name="accountProprietaryLineEdit"/>
+      </item>
+      <item row="20" column="0">
+       <widget class="QLabel" name="proprietaryAddressLabel">
+        <property name="text">
+         <string>Proprietary Address</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="refLabel">
+        <property name="text">
+         <string>Ref.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="1">
+       <widget class="QLineEdit" name="proprietaryAddressLineEdit"/>
+      </item>
+      <item row="18" column="1">
+       <widget class="QLineEdit" name="sucursalAddressLineEdit"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
