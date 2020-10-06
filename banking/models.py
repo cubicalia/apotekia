@@ -22,7 +22,6 @@ class BankAccount(models.Model):
     Swift_code = models.CharField(_('Swift CODE Number'), null=True, blank=True, max_length=20)
 
     initial_balance = models.DecimalField(_('Initial Balance'), decimal_places=2, max_digits=12, default=0.00)
-    current_balance = models.DecimalField(_('Current Balance'), decimal_places=2, max_digits=12, default=0.00)
 
     proprietary = models.CharField(_('Account Proprietary'),  max_length=60, null=True, blank=True)
     proprietary_address = models.TextField(_('Account Proprietary'), null=True, blank=True)
@@ -45,13 +44,13 @@ class BaseBankEntry(models.Model):
         'banking.BankAccount',
         on_delete=models.CASCADE,
         related_name='lines',
-        verbose_name=_("Entry"))
+        verbose_name=_("Account"))
 
     date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
     date_updated = models.DateTimeField(_("Date Updated"), auto_now=True, db_index=True)
 
-    date_of_operation = models.DateTimeField(_("Date Of Operation"), auto_now=True, db_index=True)
-    date_of_value = models.DateTimeField(_("Date Of Value"), auto_now=True, db_index=True)
+    date_of_operation = models.DateTimeField(_("Date Of Operation"))
+    date_of_value = models.DateTimeField(_("Date Of Value"))
 
     value = models.DecimalField(_('Value'), decimal_places=2, max_digits=12, default=0.00)
 
