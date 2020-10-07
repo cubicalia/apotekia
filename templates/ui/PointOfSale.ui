@@ -366,14 +366,14 @@
        <string>POINT OF SALE</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_9">
-       <item row="0" column="2" rowspan="2">
-        <widget class="QGroupBox" name="groupBox_5">
+       <item row="2" column="1" rowspan="3">
+        <widget class="QGroupBox" name="groupBox_6">
          <property name="title">
-          <string>Basket</string>
+          <string>Payment</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="3" column="0">
-           <widget class="QPushButton" name="pushButton_10">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="6" column="0">
+           <widget class="QPushButton" name="SubmitAndPrintButton">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -381,115 +381,79 @@
              </size>
             </property>
             <property name="text">
-             <string>Remove Item</string>
+             <string>SUBMIT AND PRINT INVOICE</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QTableView" name="BasketTableView"/>
+          <item row="6" column="1">
+           <widget class="QPushButton" name="SaveForLaterButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>SAVE FOR LATER</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QRadioButton" name="CashradioButton">
+            <property name="text">
+             <string>Espèce</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QRadioButton" name="CheckradioButton">
+            <property name="text">
+             <string>Chèque</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QRadioButton" name="CardradioButton">
+            <property name="text">
+             <string>Carte</string>
+            </property>
+           </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QPushButton" name="pushButton_11">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>50</height>
-             </size>
-            </property>
+           <widget class="QRadioButton" name="LetterradioButton">
             <property name="text">
-             <string>Clear Basket</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLCDNumber" name="TotlaLCDDisplay">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>100</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>Clients</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="1" column="0" colspan="4">
-           <widget class="QPushButton" name="pushButton_32">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Anonymous</string>
+             <string>Lettre</string>
             </property>
            </widget>
           </item>
           <item row="4" column="0" colspan="2">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>CLIENT: [CLIENT SELECTED]</string>
+           <widget class="QLineEdit" name="PaymentReferenceField">
+            <property name="placeholderText">
+             <string>Réference Paiement (Nº de chèque, Lettre, Etc)</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
-           <widget class="QPushButton" name="pushButton_30">
+          <item row="5" column="0" colspan="2">
+           <widget class="QPushButton" name="SubmitSaleButton">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>65</height>
+              <height>50</height>
              </size>
             </property>
             <property name="text">
-             <string>SELECT</string>
+             <string>SUBMIT (ENTER)</string>
             </property>
            </widget>
-          </item>
-          <item row="2" column="1" colspan="3">
-           <widget class="QLineEdit" name="lineEdit_2"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Search:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QPushButton" name="pushButton_31">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>65</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>NEW</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="4">
-           <widget class="QTableView" name="tableView_3"/>
           </item>
          </layout>
         </widget>
@@ -532,7 +496,7 @@
              </size>
             </property>
             <property name="text">
-             <string>SELECT</string>
+             <string>VIEW...</string>
             </property>
            </widget>
           </item>
@@ -551,7 +515,7 @@
              </size>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>ADD</string>
             </property>
            </widget>
           </item>
@@ -566,15 +530,9 @@
          <property name="title">
           <string>Totals</string>
          </property>
-         <layout class="QFormLayout" name="formLayout">
+         <layout class="QGridLayout" name="gridLayout_5">
           <property name="sizeConstraint">
            <enum>QLayout::SetNoConstraint</enum>
-          </property>
-          <property name="fieldGrowthPolicy">
-           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-          </property>
-          <property name="horizontalSpacing">
-           <number>0</number>
           </property>
           <property name="leftMargin">
            <number>0</number>
@@ -586,6 +544,9 @@
            <number>0</number>
           </property>
           <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing">
            <number>0</number>
           </property>
           <item row="0" column="0">
@@ -798,8 +759,17 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="0" colspan="2">
-           <widget class="QPushButton" name="pushButton_12">
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0" rowspan="4">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Clients</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="1" column="0" colspan="4">
+           <widget class="QPushButton" name="pushButton_32">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -807,25 +777,79 @@
              </size>
             </property>
             <property name="text">
-             <string>SUBMIT</string>
+             <string>Anonymous</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
-           <widget class="QPushButton" name="pushButton_14">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>50</height>
-             </size>
-            </property>
+          <item row="4" column="0" colspan="2">
+           <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>SAVE</string>
+             <string>CLIENT: [CLIENT SELECTED]</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="1">
-           <widget class="QPushButton" name="pushButton_15">
+          <item row="4" column="2">
+           <widget class="QPushButton" name="pushButton_30">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>65</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>SELECT</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="3">
+           <widget class="QLineEdit" name="lineEdit_2"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Search:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QPushButton" name="pushButton_31">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>65</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>NEW</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="4">
+           <widget class="QTableView" name="tableView_3"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="3" rowspan="5">
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>Basket</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="3" column="0">
+           <widget class="QPushButton" name="pushButton_10">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -833,7 +857,33 @@
              </size>
             </property>
             <property name="text">
-             <string>SUBMIT AND PRINT INVOICE</string>
+             <string>Remove Item</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QTableView" name="BasketTableView"/>
+          </item>
+          <item row="3" column="1">
+           <widget class="QPushButton" name="pushButton_11">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Clear Basket</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLCDNumber" name="TotlaLCDDisplay">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
             </property>
            </widget>
           </item>

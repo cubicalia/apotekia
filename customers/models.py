@@ -3,8 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Customer(models.Model):
-    first_name = models.CharField(_('First title'), max_length=255, blank=True)
-    last_name = models.CharField(_('Last title'), max_length=255, blank=True)
+    first_name = models.CharField(_('First name'), max_length=255, blank=True)
+    last_name = models.CharField(_('Last name'), max_length=255, blank=True)
     date_of_birth = models.DateField(_('Date of birth'), blank=True, null=True)
     id_number = models.CharField(_('ID'), max_length=12, blank=True)
     email = models.EmailField(_('Email'), blank=True)
