@@ -35,6 +35,7 @@ APPS = [
         'customers',
         'catalog',
         'inventory',
+        'payment',
         'returns',
         'sales',
         'suppliers',
@@ -115,8 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-USE_L10N = True
 
 
 # Internationalization

@@ -21,7 +21,6 @@ class ModuleMenu(QWidget):
         self.ui = ModulesUI()
         self.ui.setupUi(self)
 
-
         self.ui.pushButton_2.clicked.connect(self.open_catalog_dialog)
         self.ui.pushButton_3.clicked.connect(self.open_inventory_dialog)
         self.ui.pushButton_8.clicked.connect(self.open_banking_dialog)

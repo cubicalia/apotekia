@@ -123,7 +123,7 @@ class CustomerOrder(models.Model):
         (SAVED, _("Saved - for items to be purchased later")),
         (SHIPPED_NOT_PAID, _("Shipped and Not paid - the order hasn't been paid yet")),
         (SHIPPED_PAID_PARTIALLY, _("Shipped and Paid Partially - Not totally paid")),
-        (SHIPPED_PAID, _("Shipped and Pai - Has been paid")),
+        (SHIPPED_PAID, _("Shipped and Paid - Has been paid")),
     )
     status = models.CharField(
         _("Status"), max_length=128, default=OPEN, choices=STATUS_CHOICES)
