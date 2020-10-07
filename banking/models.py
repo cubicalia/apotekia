@@ -32,9 +32,7 @@ class BankAccount(models.Model):
         verbose_name_plural = _("Bank Accounts")
 
     def __str__(self):
-        return str(self.account_name) + ': ' + \
-               str(self.account_number) + \
-               ' contains: ' + str(self.current_balance) + ' ' + settings.DEFAULT_CURRENCY
+        return self.account_name
 
 
 class BaseBankEntry(models.Model):
