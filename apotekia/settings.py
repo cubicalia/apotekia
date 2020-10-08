@@ -139,4 +139,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 IMAGE_FOLDER = os.path.join(BASE_DIR, "images")
 
-DEFAULT_CURRENCY = 'MAD'
+DEFAULT_CURRENCY = 'Dh'

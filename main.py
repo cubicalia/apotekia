@@ -1,5 +1,6 @@
 from apotekia import db_setup
 import sys
+import numpy as np
 
 from PyQt5.QtCore import QSortFilterProxyModel, Qt, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -13,6 +14,8 @@ from inventory.views import InventoryDialog
 from catalog.views import ProductDialog
 from banking.views import BankingDialog
 
+from apotekia import settings
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -21,8 +24,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Products Data Init
         self.product_fields = []
         self.product_data = Product.objects.all()
-        self.product_dicts = Product.objects.values()
-        self.product_model = QStandardItemModel(len(self.product_data), 1)
+        self.product_model = QStandardItemModel(len(self.product_data), 7)
+        self.product_model.setHorizontalHeaderLabels(['Id', 'Product', 'Price HT', 'Price TTC', 'In stock'])
         self.product_filter_proxy_model = QSortFilterProxyModel()
         self.product_filter_proxy_model.setSourceModel(self.product_model)
         self.selected_product = ""
@@ -31,17 +34,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.customer_fields = []
         self.customer_data = Customer.objects.all()
         self.customer_dicts = Customer.objects.values()
-        self.customer_model = QStandardItemModel(len(self.customer_data), 1)
+        self.customer_model = QStandardItemModel(len(self.customer_data), 2)
         self.customer_filter_proxy_model = QSortFilterProxyModel()
         self.customer_filter_proxy_model.setSourceModel(self.customer_model)
         self.selected_customer = ""
 
         # Basket Data
+        self.products_in_basket = {}
+        self.basket_model = QStandardItemModel(len(self.products_in_basket.keys()), 4)
+        self.basket_model.setHorizontalHeaderLabels(['Product', 'Quantity', 'Unit Price', 'Total Price'])
+        self.client_for_basket = ''
+        self.payment_source_type = ''
+        self.payment_source = ''
 
         self.setupUi(self)
         self.initiate_module_menu()
+
         self.populate_products_list()
         self.populate_customers_list()
+
+        self.initiate_basket_view()
+
 
     """
     Initiating The Modules Left Vertical Menu
@@ -72,8 +85,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     '''
 
     def populate_products_list(self):
-        self.fields = []
-        self.product_model.setHorizontalHeaderLabels(['Product'])
         self.populate_product_model()
 
         self.product_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
@@ -82,8 +93,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lineEdit.textChanged.connect(self.product_filter_proxy_model.setFilterRegExp)
         self.tableView_2.setModel(self.product_filter_proxy_model)
 
-        # Connect up the buttons.
-        self.pushButton_28.clicked.connect(self.get_product_field_values)
+        self.pushButton_29.clicked.connect(self.add_product_to_basket)
 
         selection_model = self.tableView_2.selectionModel()
         selection_model.selectionChanged.connect(self.on_product_selectionChanged)
@@ -94,27 +104,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if not str(field).startswith('<'):
                 self.product_fields.append(str(field.name))
 
-    def get_product_field_values(self):
-        for product in self.product_dicts:
-            print(product)
-
     def populate_product_model(self):
         for row, product in enumerate(self.product_data):
-            print(str(product))
-            item = QStandardItem(str(product))
-            self.product_model.setItem(row, 0, item)
+            # print(str(product))
+            id = QStandardItem(str(product.id))
+            title = QStandardItem(str(product.title))
+            price_ht = QStandardItem(str(product.selling_price))
+            ttc = float(product.selling_price) * float(product.tax_rate) / 100 + float(product.selling_price)
+            price_ttc = QStandardItem(str(ttc))
+            self.product_model.setItem(row, 0, id)
+            self.product_model.setItem(row, 1, title)
+            self.product_model.setItem(row, 2, price_ht)
+            self.product_model.setItem(row, 3, price_ttc)
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_product_selectionChanged(self, selected):
-        print("selected: ")
-        for item in selected.indexes():
-            if item:
-                self.label_2.setText(item.data())
-                self.selected_product = item.data()
-                print(self.selected_product)
-
-    def add_product_to_basket(self):
-        pass
+        item = selected.indexes()[0]
+        if item:
+            self.label_4.setText(item.data())
+            self.selected_product = item.data()
 
     """
     Customers Search and Filters
@@ -122,8 +130,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def populate_customers_list(self):
         # Set up the user interface from Designer.
-        self.fields = []
-
         self.populate_customer_model()
         self.customer_model.setHorizontalHeaderLabels(['Customer'])
 
@@ -151,7 +157,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def populate_customer_model(self):
         for row, customer in enumerate(self.customer_data):
-            print(str(customer))
             item = QStandardItem(str(customer))
             self.customer_model.setItem(row, 0, item)
 
@@ -164,7 +169,69 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print(self.selected_customer)
 
     def select_customer_for_basket(self):
-        pass
+        print(self.selected_customer)
+
+    """
+    Basket & Total Values
+    """
+
+    def initiate_basket_view(self):
+        self.BasketTableView.setModel(self.basket_model)
+
+    def populate_basket(self):
+        for key, value in enumerate(self.products_in_basket):
+            product = Product.objects.get(id=value)
+            title = QStandardItem(str(product.title))
+            quantity = QStandardItem(str(self.products_in_basket[value]))
+            price = str(product.selling_price*(100+product.tax_rate)/100)
+            view_price = QStandardItem(price)
+            total = product.selling_price*(100+product.tax_rate)/100 * self.products_in_basket[value]
+            view_total = QStandardItem(str(total))
+
+            self.basket_model.setItem(int(key), 0, title)
+            self.basket_model.setItem(int(key), 1, quantity)
+            self.basket_model.setItem(int(key), 2, view_price)
+            self.basket_model.setItem(int(key), 3, view_total)
+
+    def refresh_basket_view(self):
+        self.populate_basket()
+        self.sum_Basket_total()
+
+    def sum_Basket_total(self):
+        model = self.BasketTableView.model()
+        data = []
+        totals_products = []
+        totals_TTC = []
+        totals_HT = []
+        for row in range(model.rowCount()):
+            data.append([])
+            for column in range(model.columnCount()):
+                index = model.index(row, column)
+                data[row].append(str(model.data(index)))
+        for row in data:
+            totals_products.append(int(row[1]))
+            totals_TTC.append(float(row[3]))
+        total_items = sum(totals_products)
+        total = sum(totals_TTC)
+        self.label_6.setText(str(total_items))
+        self.label_24.setText(str(total))
+        self.TotlaLCDDisplay.setDigitCount(10)
+        self.TotlaLCDDisplay.display(str(total))
+        self.TotlaLCDDisplay.repaint()
+
+    def add_product_to_basket(self):
+        if self.selected_product not in self.products_in_basket.keys():
+            if self.selected_product != '':
+                # print('product not in basket, adding it now')
+                self.products_in_basket[self.selected_product] = 1
+            else:
+                print('nothing selected')
+        else:
+            # print('Product already in basket, adding to the quantity')
+            self.products_in_basket[self.selected_product] += 1
+            # print(self.products_in_basket)
+
+        self.refresh_basket_view()
 
 
 if __name__ == "__main__":
