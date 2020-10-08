@@ -1,9 +1,13 @@
+from PyQt5.QtGui import QColor
+
 from apotekia import db_setup
 
-from PyQt5.QtWidgets import QGridLayout, QWidget
+from PyQt5.QtWidgets import QGridLayout, QWidget, QSizePolicy
 
+from banking.views import BankingDialog
 from customers.views import CustomerSearchDialog
-from catalog.views import ProductSearchDialog
+from catalog.views import ProductSearchDialog, ProductDialog
+from inventory.tests import InventoryDialog
 from sales.views import BasketPOSWidget, DisplayPOSTotalsWidget
 
 
@@ -26,3 +30,5 @@ class POS(QWidget):
         self.layout.addWidget(self.totals_widget, 3, 2, 1, 1)
 
         self.setLayout(self.layout)
+
+

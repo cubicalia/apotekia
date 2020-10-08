@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1293</width>
-    <height>872</height>
+    <width>1250</width>
+    <height>855</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item alignment="Qt::AlignTop">
      <widget class="QGroupBox" name="APPS_GroupBox">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -279,7 +279,7 @@
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>ACCOUNTING</string>
+          <string>BANKING AND ACCOUNTS</string>
          </property>
         </widget>
        </item>
@@ -313,7 +313,7 @@
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>App_1</string>
+          <string>CUSTOMERS</string>
          </property>
         </widget>
        </item>
@@ -347,7 +347,7 @@
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>App_1</string>
+          <string>PROVIDERS</string>
          </property>
         </widget>
        </item>
@@ -368,12 +368,24 @@
       <layout class="QGridLayout" name="gridLayout_9">
        <item row="2" column="1" rowspan="3">
         <widget class="QGroupBox" name="groupBox_6">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>Payment</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="6" column="0">
            <widget class="QPushButton" name="SubmitAndPrintButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -400,7 +412,7 @@
              </size>
             </property>
             <property name="text">
-             <string>SAVE FOR LATER</string>
+             <string>SAVE FOR LATER(CTRL+S)</string>
             </property>
            </widget>
           </item>
@@ -450,8 +462,22 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 170, 255);
+color: rgb(255, 255, 255);</string>
+            </property>
             <property name="text">
-             <string>SUBMIT (ENTER)</string>
+             <string>SUBMIT (CTRL+ENTER)</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+Return</string>
             </property>
            </widget>
           </item>
@@ -527,6 +553,12 @@
        </item>
        <item row="1" column="1">
         <widget class="QGroupBox" name="groupBox_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>Totals</string>
          </property>
@@ -844,6 +876,12 @@
        </item>
        <item row="0" column="3" rowspan="5">
         <widget class="QGroupBox" name="groupBox_5">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>Basket</string>
          </property>
@@ -900,7 +938,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1293</width>
+     <width>1250</width>
      <height>21</height>
     </rect>
    </property>
