@@ -217,11 +217,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 data[row].append(str(model.data(index)))
         for row in data:
             totals_products.append(int(row[1]))
+            totals_HT.append(float(row[2])*int(row[1]))
             totals_TTC.append(float(row[4]))
+
+        print(data)
         total_items = sum(totals_products)
+        total_HT = sum(totals_HT)
         total = sum(totals_TTC)
         self.label_6.setText(str(total_items))
         self.label_24.setText(str(total) + ' ' + settings.DEFAULT_CURRENCY)
+        self.label_25.setText(str(total_HT))
         self.TotlaLCDDisplay.setDigitCount(10)
         self.TotlaLCDDisplay.display(str(total))
         self.TotlaLCDDisplay.repaint()
@@ -243,8 +248,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def clear_basket(self):
         self.products_in_basket = {}
         self.basket_model.clear()
-        self.initiate_basket_view()
         self.refresh_basket_view()
+        self.initiate_basket_view()
 
     def remove_item_from_basket(self):
         pass
