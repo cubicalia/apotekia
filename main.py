@@ -262,7 +262,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for index in indices:
             pid = index.data()
             del self.products_in_basket[pid]
-            print(self.products_in_basket)
             self.basket_model.removeRow(index.row())
             self.refresh_basket_view()
 
