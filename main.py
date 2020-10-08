@@ -42,11 +42,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Basket Data
         self.products_in_basket = {}
         self.basket_model = QStandardItemModel(len(self.products_in_basket.keys()), 4)
-        self.basket_model.setHorizontalHeaderLabels(['Product',
-                                                     'Quantity',
-                                                     'Unit Price HT',
-                                                     'Unit Price TTC',
-                                                     'Total Price'])
+
         self.client_for_basket = ''
         self.payment_source_type = ''
         self.payment_source = ''
@@ -181,6 +177,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def initiate_basket_view(self):
         self.BasketTableView.setModel(self.basket_model)
+        self.basket_model.setHorizontalHeaderLabels(['Product',
+                                                     'Quantity',
+                                                     'Unit Price HT',
+                                                     'Unit Price TTC',
+                                                     'Total Price'])
 
     def populate_basket(self):
         for key, value in enumerate(self.products_in_basket):
@@ -242,7 +243,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def clear_basket(self):
         self.products_in_basket = {}
         self.basket_model.clear()
+        self.initiate_basket_view()
         self.refresh_basket_view()
+
+    def remove_item_from_basket(self):
+        pass
 
 
 if __name__ == "__main__":
