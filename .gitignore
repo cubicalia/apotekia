@@ -15,3 +15,4 @@ script.py
 suppliers/__pycache__/
 suppliers/migrations/__pycache__/
 templates/ui/__pycache__/
+/sobrus_crawler/
