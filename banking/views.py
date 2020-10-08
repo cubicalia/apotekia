@@ -46,7 +46,7 @@ class BankingDialog(QDialog):
         item = selected.indexes()[0]
         if item:
             self.selected = item.data()
-            # self.show_movements(item.data())
+            # self.show_movements(item.product_data())
             selected_account = BankAccount.objects.get(id=item.data())
             self.ui.Acoount_Name.setText(selected_account.account_name)
             self.ui.Account_number.setText(selected_account.account_number)

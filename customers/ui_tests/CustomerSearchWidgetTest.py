@@ -41,7 +41,7 @@ class CustomerSearchDialog(QDialog):
         self.selected = ""
 
     def populate_model_fields(self):
-        # for row in self.data:
+        # for row in self.product_data:
         #     print(row)
 
         fields = Customer._meta.get_fields(include_parents=False)
@@ -65,8 +65,8 @@ class CustomerSearchDialog(QDialog):
         print("selected: ")
         for item in selected.indexes():
             if item:
-                self.ui.CustomerSelectionLabel.setText(item.data())
-                self.selected = item.data()
+                self.ui.CustomerSelectionLabel.setText(item.product_data())
+                self.selected = item.product_data()
                 print(self.selected)
 
 

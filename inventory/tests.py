@@ -45,11 +45,11 @@ class InventoryDialog(QDialog):
     def on_selectionChanged(self, selected):
         for item in selected.indexes():
             if item:
-                self.ui.label_13.setText(item.data())
-                self.selected = item.data()
+                self.ui.label_13.setText(item.product_data())
+                self.selected = item.product_data()
                 self.ui.StockMovementsTable.update()
-                self.show_movements(item.data())
-                print(item.data())
+                self.show_movements(item.product_data())
+                print(item.product_data())
 
 
 if __name__ == "__main__":

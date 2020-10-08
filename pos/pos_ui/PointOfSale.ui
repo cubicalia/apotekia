@@ -546,7 +546,17 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item row="1" column="0" colspan="4">
-           <widget class="QTableView" name="tableView_2"/>
+           <widget class="QTableView" name="tableView_2">
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -869,7 +879,17 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item row="3" column="0" colspan="4">
-           <widget class="QTableView" name="tableView_3"/>
+           <widget class="QTableView" name="tableView_3">
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
