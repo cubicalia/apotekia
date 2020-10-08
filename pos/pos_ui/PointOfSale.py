@@ -399,6 +399,8 @@ class Ui_MainWindow(object):
         self.tableView_3.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableView_3.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableView_3.setObjectName("tableView_3")
+        self.tableView_3.horizontalHeader().setCascadingSectionResizes(True)
+        self.tableView_3.horizontalHeader().setStretchLastSection(True)
         self.gridLayout_4.addWidget(self.tableView_3, 3, 0, 1, 4)
         self.gridLayout_9.addWidget(self.groupBox_3, 1, 0, 4, 1)
         self.groupBox_5 = QtWidgets.QGroupBox(self.groupBox_2)
@@ -415,7 +417,10 @@ class Ui_MainWindow(object):
         self.pushButton_10.setObjectName("pushButton_10")
         self.gridLayout.addWidget(self.pushButton_10, 3, 0, 1, 1)
         self.BasketTableView = QtWidgets.QTableView(self.groupBox_5)
+        self.BasketTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.BasketTableView.setObjectName("BasketTableView")
+        self.BasketTableView.horizontalHeader().setCascadingSectionResizes(True)
+        self.BasketTableView.horizontalHeader().setStretchLastSection(True)
         self.gridLayout.addWidget(self.BasketTableView, 2, 0, 1, 2)
         self.pushButton_11 = QtWidgets.QPushButton(self.groupBox_5)
         self.pushButton_11.setMinimumSize(QtCore.QSize(0, 50))
@@ -575,7 +580,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "APOTEKIA"))
         self.APPS_GroupBox.setTitle(_translate("MainWindow", "APPS"))
         self.pushButton.setText(_translate("MainWindow", "ANALYTICS"))
         self.pushButton_2.setText(_translate("MainWindow", "CATALOG"))
@@ -601,7 +606,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Search:"))
         self.label_2.setText(_translate("MainWindow", "SELECTED: [PRODUCT SELECTED]"))
         self.pushButton_28.setText(_translate("MainWindow", "VIEW..."))
-        self.pushButton_29.setText(_translate("MainWindow", "ADD TO BASKET"))
+        self.pushButton_29.setText(_translate("MainWindow", "ADD"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Totals"))
         self.label_5.setText(_translate("MainWindow", "Total Articles:"))
         self.label_6.setText(_translate("MainWindow", "0"))

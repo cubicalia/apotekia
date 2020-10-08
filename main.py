@@ -42,7 +42,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Basket Data
         self.products_in_basket = {}
         self.basket_model = QStandardItemModel(len(self.products_in_basket.keys()), 4)
-        self.basket_model.setHorizontalHeaderLabels(['Product', 'Quantity', 'Unit Price', 'Total Price'])
+        self.basket_model.setHorizontalHeaderLabels(['Product',
+                                                     'Quantity',
+                                                     'Unit Price HT',
+                                                     'Unit Price TTC',
+                                                     'Total Price'])
         self.client_for_basket = ''
         self.payment_source_type = ''
         self.payment_source = ''
@@ -52,9 +56,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.populate_products_list()
         self.populate_customers_list()
+        self.pushButton_11.clicked.connect(self.clear_basket)
 
         self.initiate_basket_view()
-
 
     """
     Initiating The Modules Left Vertical Menu
@@ -88,7 +92,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.populate_product_model()
 
         self.product_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        self.product_filter_proxy_model.setFilterKeyColumn(0)
+        self.product_filter_proxy_model.setFilterKeyColumn(1)
 
         self.lineEdit.textChanged.connect(self.product_filter_proxy_model.setFilterRegExp)
         self.tableView_2.setModel(self.product_filter_proxy_model)
@@ -183,6 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             product = Product.objects.get(id=value)
             title = QStandardItem(str(product.title))
             quantity = QStandardItem(str(self.products_in_basket[value]))
+            price_ht = QStandardItem(str(product.selling_price))
             price = str(product.selling_price*(100+product.tax_rate)/100)
             view_price = QStandardItem(price)
             total = product.selling_price*(100+product.tax_rate)/100 * self.products_in_basket[value]
@@ -190,8 +195,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.basket_model.setItem(int(key), 0, title)
             self.basket_model.setItem(int(key), 1, quantity)
-            self.basket_model.setItem(int(key), 2, view_price)
-            self.basket_model.setItem(int(key), 3, view_total)
+            self.basket_model.setItem(int(key), 2, price_ht)
+            self.basket_model.setItem(int(key), 3, view_price)
+            self.basket_model.setItem(int(key), 4, view_total)
 
     def refresh_basket_view(self):
         self.populate_basket()
@@ -210,11 +216,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 data[row].append(str(model.data(index)))
         for row in data:
             totals_products.append(int(row[1]))
-            totals_TTC.append(float(row[3]))
+            totals_TTC.append(float(row[4]))
         total_items = sum(totals_products)
         total = sum(totals_TTC)
         self.label_6.setText(str(total_items))
-        self.label_24.setText(str(total))
+        self.label_24.setText(str(total) + ' ' + settings.DEFAULT_CURRENCY)
         self.TotlaLCDDisplay.setDigitCount(10)
         self.TotlaLCDDisplay.display(str(total))
         self.TotlaLCDDisplay.repaint()
@@ -231,6 +237,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.products_in_basket[self.selected_product] += 1
             # print(self.products_in_basket)
 
+        self.refresh_basket_view()
+
+    def clear_basket(self):
+        self.products_in_basket = {}
+        self.basket_model.clear()
         self.refresh_basket_view()
 
 
