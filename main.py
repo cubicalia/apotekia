@@ -52,6 +52,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.populate_products_list()
         self.populate_customers_list()
+        self.pushButton_10.clicked.connect(self.remove_item_from_basket)
         self.pushButton_11.clicked.connect(self.clear_basket)
 
         self.initiate_basket_view()
@@ -181,7 +182,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                      'Quantity',
                                                      'Unit Price HT',
                                                      'Unit Price TTC',
-                                                     'Total Price'])
+                                                     'Total Price',
+                                                     'PID'])
+        self.BasketTableView.hideColumn(5)
 
     def populate_basket(self):
         for key, value in enumerate(self.products_in_basket):
@@ -193,12 +196,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             view_price = QStandardItem(price)
             total = product.selling_price*(100+product.tax_rate)/100 * self.products_in_basket[value]
             view_total = QStandardItem(str(total))
+            pid = QStandardItem(str(value))
 
             self.basket_model.setItem(int(key), 0, title)
             self.basket_model.setItem(int(key), 1, quantity)
             self.basket_model.setItem(int(key), 2, price_ht)
             self.basket_model.setItem(int(key), 3, view_price)
             self.basket_model.setItem(int(key), 4, view_total)
+            self.basket_model.setItem(int(key), 5, pid)
+
+        self.BasketTableView.hideColumn(5)
 
     def refresh_basket_view(self):
         self.populate_basket()
@@ -220,7 +227,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             totals_HT.append(float(row[2])*int(row[1]))
             totals_TTC.append(float(row[4]))
 
-        print(data)
         total_items = sum(totals_products)
         total_HT = sum(totals_HT)
         total = sum(totals_TTC)
@@ -252,7 +258,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.initiate_basket_view()
 
     def remove_item_from_basket(self):
-        pass
+        indices = self.BasketTableView.selectionModel().selectedRows(5)
+        for index in indices:
+            pid = index.data()
+            del self.products_in_basket[pid]
+            print(self.products_in_basket)
+            self.basket_model.removeRow(index.row())
+            self.refresh_basket_view()
 
 
 if __name__ == "__main__":
