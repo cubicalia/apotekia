@@ -601,7 +601,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Search:"))
         self.label_2.setText(_translate("MainWindow", "SELECTED: [PRODUCT SELECTED]"))
         self.pushButton_28.setText(_translate("MainWindow", "VIEW..."))
-        self.pushButton_29.setText(_translate("MainWindow", "ADD"))
+        self.pushButton_29.setText(_translate("MainWindow", "ADD TO BASKET"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Totals"))
         self.label_5.setText(_translate("MainWindow", "Total Articles:"))
         self.label_6.setText(_translate("MainWindow", "3"))

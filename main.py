@@ -17,8 +17,9 @@ from banking.views import BankingDialog
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.fields = []
+
         # Products Data Init
+        self.product_fields = []
         self.product_data = Product.objects.all()
         self.product_dicts = Product.objects.values()
         self.product_model = QStandardItemModel(len(self.product_data), 1)
@@ -27,12 +28,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.selected_product = ""
 
         # Customers Data Init
+        self.customer_fields = []
         self.customer_data = Customer.objects.all()
         self.customer_dicts = Customer.objects.values()
         self.customer_model = QStandardItemModel(len(self.customer_data), 1)
         self.customer_filter_proxy_model = QSortFilterProxyModel()
         self.customer_filter_proxy_model.setSourceModel(self.customer_model)
         self.selected_customer = ""
+
+        # Basket Data
 
         self.setupUi(self)
         self.initiate_module_menu()
@@ -84,11 +88,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selection_model = self.tableView_2.selectionModel()
         selection_model.selectionChanged.connect(self.on_product_selectionChanged)
 
-    def populate_model_fields(self):
+    def populate_product_model_fields(self):
         fields = Product._meta.get_fields(include_parents=False)
         for field in fields:
             if not str(field).startswith('<'):
-                self.fields.append(str(field.name))
+                self.product_fields.append(str(field.name))
 
     def get_product_field_values(self):
         for product in self.product_dicts:
@@ -108,6 +112,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.label_2.setText(item.data())
                 self.selected_product = item.data()
                 print(self.selected_product)
+
+    def add_product_to_basket(self):
+        pass
 
     """
     Customers Search and Filters
@@ -133,13 +140,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selection_model.selectionChanged.connect(self.on_customer_selectionChanged)
 
     def populate_customer_model_fields(self):
-        # for row in self.product_data:
-        #     print(row)
-
         fields = Customer._meta.get_fields(include_parents=False)
         for field in fields:
             if not str(field).startswith('<'):
-                self.fields.append(str(field.name))
+                self.customer_fields.append(str(field.name))
 
     def get_customer_field_values(self):
         for customer in self.customer_dicts:
@@ -158,6 +162,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.label_4.setText(item.data())
                 self.selected_customer = item.data()
                 print(self.selected_customer)
+
+    def select_customer_for_basket(self):
+        pass
 
 
 if __name__ == "__main__":
