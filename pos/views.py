@@ -1,7 +1,6 @@
-from PyQt5.QtGui import QColor
-
 from apotekia import db_setup
 
+from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QGridLayout, QWidget, QSizePolicy
 
 from banking.views import BankingDialog
