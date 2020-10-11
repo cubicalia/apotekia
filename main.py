@@ -89,7 +89,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.populate_product_model()
 
         self.product_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        self.product_filter_proxy_model.setFilterKeyColumn(1)
+        self.product_filter_proxy_model.setFilterKeyColumn(5)
 
         self.lineEdit.textChanged.connect(self.product_filter_proxy_model.setFilterRegExp)
         self.tableView_2.setModel(self.product_filter_proxy_model)
@@ -123,11 +123,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_product_selectionChanged(self, selected):
-        item = selected.indexes()[0]
-        name = selected.indexes()[1]
-        if item:
-            self.label_2.setText(name.data())
-            self.selected_product = item.data()
+        try:
+            item = selected.indexes()[0]
+            print(selected.indexes()[0])
+            name = selected.indexes()[1]
+            print('-------')
+            if item:
+                self.label_2.setText(name.data())
+                self.selected_product = item.data()
+        except IndexError as e:
+            print('Barcode not found')
+            pass
 
     """
     Customers Search and Filters

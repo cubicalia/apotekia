@@ -60,9 +60,9 @@ class Product(models.Model):
 
     # Price and tax
     purchase_price = models.DecimalField(_('Purchase price'),
-                                         blank=True, null=True, max_digits=6, decimal_places=2)
+                                         blank=True, null=True, max_digits=10, decimal_places=2)
     selling_price = models.DecimalField(_('Selling price'),
-                                        blank=True, null=True, max_digits=6, decimal_places=2)
+                                        blank=True, null=True, max_digits=10, decimal_places=2)
     tax_rate = models.DecimalField(_('Tax Rate'), default=20.0, max_digits=5, decimal_places=2)
 
     category = models.ForeignKey(
