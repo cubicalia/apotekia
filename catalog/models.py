@@ -46,6 +46,11 @@ class Product(models.Model):
                            help_text=_("Universal Product Code (UPC) is an identifier for "
                                          "a product which is not specific to a particular "
                                          " supplier. Eg an ISBN for a book."))
+    upc_2 = models.CharField(_("UPC 2"),
+                           max_length=64, blank=True, null=True, unique=True,
+                           help_text=_("Universal Product Code (UPC) is an identifier for "
+                                       "a product which is not specific to a particular "
+                                       " supplier. Eg an ISBN for a book."))
     length = models.DecimalField(_('Product length dimension'),
                                  blank=True, null=True, max_digits=6, decimal_places=2)
     width = models.DecimalField(_('Product width dimension'),
