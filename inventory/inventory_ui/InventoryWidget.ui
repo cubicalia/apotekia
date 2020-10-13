@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1046</width>
-    <height>1240</height>
+    <width>1043</width>
+    <height>835</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,6 +26,25 @@
       <string>Stock  Locations</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>Main Warehouse</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Backend</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Another warehouse</string>
+         </property>
+        </item>
+       </widget>
+      </item>
       <item>
        <widget class="QListView" name="StockLocationList">
         <property name="minimumSize">

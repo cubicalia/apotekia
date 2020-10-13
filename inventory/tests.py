@@ -1,4 +1,3 @@
-from apotekia import db_setup
 import sys
 
 from PyQt5.QtCore import pyqtSlot
@@ -6,7 +5,7 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import QDialog, QApplication, QTableWidgetItem
 
 from inventory.models import InventoryLocation, InventoryEntry
-from templates.ui.InventoryWidget import Ui_StockWidget
+from inventory.inventory_ui.InventoryWidget import Ui_StockWidget
 
 
 class InventoryDialog(QDialog):

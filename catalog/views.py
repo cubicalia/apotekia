@@ -2,6 +2,8 @@ from apotekia import db_setup
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget
 from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
+
+from inventory.models import WareHouse
 from templates.ui.ProductSearch import Ui_ProductSearchWidget
 from templates.ui.ProductsWidget import Ui_ProductDialog
 
@@ -78,3 +80,5 @@ class ProductDialog(QDialog):
     def initUI(self):
         self.ui = Ui_ProductDialog()
         self.ui.setupUi(self)
+
+

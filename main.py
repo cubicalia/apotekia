@@ -7,8 +7,11 @@ from PyQt5.QtCore import QSortFilterProxyModel, Qt, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from inventory.utils import find_product_locations
+
 from catalog.models import Product
 from customers.models import Customer
+from inventory.models import InventoryEntry
 from sales.models import Basket, BasketLine
 from django.contrib.auth.models import User
 
@@ -57,6 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.populate_customers_list()
         self.pushButton_10.clicked.connect(self.remove_item_from_basket)
         self.pushButton_11.clicked.connect(self.clear_basket)
+        self.SubmitSaleButton.clicked.connect(self.submit_basket)
         self.SaveForLaterButton.clicked.connect(self.save_basket)
 
         self.initiate_basket_view()
@@ -280,6 +284,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.basket_model.removeRow(index.row())
             self.refresh_basket_view()
 
+    def clear_all(self):
+        self.clear_basket()
+        self.clear_customer()
+        self.populate_customer_model()
+        self.refresh_basket_view()
+
     def save_basket(self):
         # Variables
         status = Basket.STATUS_CHOICES[2]  # Open status for saved baskets
@@ -288,6 +298,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Employee association
         employee = User.objects.get(pk=1)  # TODO:Manage the logged in user to match the current employee
 
+        # Customer association
+        if self.selected_customer is not '':
+            customer = Customer.objects.get(pk=int(self.selected_customer))
+            basket = Basket(employee=employee, customer=customer, status=status, date_submitted=date_saved)
+        else:
+            name = 'Anonymous'  # TODO: Make Anonymous a single client
+            anonymous_customer, created = Customer.objects.get_or_create(first_name=name)
+            basket = Basket(employee=employee, customer=anonymous_customer, status=status, date_submitted=date_saved)
+            basket.save()
+
+        basket.save()
+        print('BASKET {} SAVED'.format(basket.id))
+        # Saving the basket lines
+        lines_dict = self.products_in_basket
+        for line in lines_dict:
+            product = Product.objects.get(pk=int(line))
+            quantity = lines_dict[line]
+            price_excl_tax = product.selling_price
+            price_incl_tax = float(product.selling_price) + (
+                        float(product.selling_price) * float(product.tax_rate)) / 100
+
+            basket_line = BasketLine(basket=basket,
+                                     product=product,
+                                     quantity=quantity,
+                                     price_excl_tax=price_excl_tax,
+                                     price_incl_tax=price_incl_tax)
+            basket_line.save()
+            print(basket_line.line_reference + 'saved')
+        """
+        After saving a Basket or submitting one, we need to clean the basket and create a new one
+        """
+        self.clear_all()
+
+    def submit_basket(self):
+        # Variables
+        status = Basket.STATUS_CHOICES[4]  # Open status for saved baskets
+        date_saved = timezone.now()
+
+        # Employee association
+        employee = User.objects.get(pk=1)  # TODO:Manage the logged in user to match the current employee
 
         # Customer association
         if self.selected_customer is not '':
@@ -302,29 +352,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             basket.save()
 
         basket.save()
-        print('BASKET {} SAVED'.format(basket.id))
-        # Saving the basket lines
+        print('BASKET {} SUBMITTED'.format(basket.id))
+
+        # Saving the basket lines and reducing the inventory
         lines_dict = self.products_in_basket
         for line in lines_dict:
             product = Product.objects.get(pk=int(line))
             quantity = lines_dict[line]
             price_excl_tax = product.selling_price
-            price_incl_tax = float(product.selling_price) + (float(product.selling_price) * float(product.tax_rate))/100
+            price_incl_tax = float(product.selling_price) + (
+                    float(product.selling_price) * float(product.tax_rate)) / 100
 
             basket_line = BasketLine(basket=basket,
                                      product=product,
                                      quantity=quantity,
                                      price_excl_tax=price_excl_tax,
                                      price_incl_tax=price_incl_tax)
-            basket_line.save()
+            inventory_entry = InventoryEntry(product=product, qty=-quantity)
+            find_product_locations(product)
+            # basket_line.save()
+            # inventory_entry.save()
             print(basket_line.line_reference + 'saved')
+
         """
         After saving a Basket or submitting one, we need to clean the basket and create a new one
         """
-        self.clear_basket()
-        self.clear_customer()
-        self.populate_customer_model()
-        self.refresh_basket_view()
+        self.clear_all()
 
 
 if __name__ == "__main__":
