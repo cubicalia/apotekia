@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apotekia.utils import get_default_currency
+from customers.models import Customer
 
 
 class Basket(models.Model):
@@ -14,6 +15,13 @@ class Basket(models.Model):
         related_name='sales',
         on_delete=models.CASCADE,
         verbose_name=_("Employee"))
+
+    customer = models.ForeignKey(
+        'customers.Customer',
+        null=True,
+        related_name='sales',
+        on_delete=models.PROTECT,
+        verbose_name=_("Customer"))
 
     # Basket statuses
     # - Frozen is for when a basket is in the process of being submitted
@@ -79,21 +87,18 @@ class BasketLine(models.Model):
         app_label = 'sales'
         # Enforce sorting by order of creation.
         ordering = ['date_created', 'pk']
-        unique_together = ("basket", "line_reference")
         verbose_name = _('Basket line')
         verbose_name_plural = _('Basket lines')
 
     def __str__(self):
-        return self.line_reference
+        return 'Line {} of basket: '.format(self.pk) + str(self.basket.pk)
 
 
 class CustomerOrder(models.Model):
-    number = models.CharField(
-        _("Order number"), max_length=128, db_index=True, unique=True)
-
-    basket = models.ForeignKey(
-        'sales.Basket', verbose_name=_("Basket"),
-        null=True, blank=True, on_delete=models.SET_NULL)
+    number = models.CharField(_("Order number"),
+                              max_length=128,
+                              db_index=True,
+                              unique=True)
 
     customer = models.ForeignKey(
         'customers.Customer', related_name='orders', null=True, blank=True,
@@ -152,7 +157,7 @@ class CustomerOrder(models.Model):
         Return basket total including tax but before discounts are applied
         """
         total = D('0.00')
-        for line in self.basket.lines.all():
+        for line in self.order_lines.all():
             total += line.line_price_before_discounts_incl_tax
         return total
 
@@ -162,7 +167,27 @@ class CustomerOrder(models.Model):
         Return basket total excluding tax but before discounts are applied
         """
         total = D('0.00')
-        for line in self.basket.lines.all():
+        for line in self.order_lines.all():
             total += line.line_price_before_discounts_excl_tax
         return total
 
+
+class CustomerOrderLine(models.Model):
+    order = models.ForeignKey('sales.CustomerOrder',
+                              related_name='order_lines',
+                              verbose_name=_("Customer"),
+                              on_delete=models.CASCADE)
+    product = models.ForeignKey('catalog.Product',
+                                related_name='order_line_product',
+                                verbose_name=_("Customer"),
+                                on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(_('Quantity'), default=1)
+
+    price_excl_tax = models.DecimalField(
+        _('Price excl. Tax'), decimal_places=2, max_digits=12, null=True)
+    price_incl_tax = models.DecimalField(
+        _('Price incl. Tax'), decimal_places=2, max_digits=12, null=True)
+
+    # Track date of first addition
+    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
+    date_updated = models.DateTimeField(_("Date Updated"), auto_now=True, db_index=True)

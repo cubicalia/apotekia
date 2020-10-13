@@ -1,6 +1,7 @@
 from apotekia import db_setup
 import sys
 import numpy as np
+from django.utils import timezone
 
 from PyQt5.QtCore import QSortFilterProxyModel, Qt, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -8,6 +9,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from catalog.models import Product
 from customers.models import Customer
+from sales.models import Basket, BasketLine
+from django.contrib.auth.models import User
 
 from pos.pos_ui.PointOfSale import Ui_MainWindow
 from inventory.views import InventoryDialog
@@ -54,6 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.populate_customers_list()
         self.pushButton_10.clicked.connect(self.remove_item_from_basket)
         self.pushButton_11.clicked.connect(self.clear_basket)
+        self.SaveForLaterButton.clicked.connect(self.save_basket)
 
         self.initiate_basket_view()
 
@@ -125,14 +129,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_product_selectionChanged(self, selected):
         try:
             item = selected.indexes()[0]
-            print(selected.indexes()[0])
             name = selected.indexes()[1]
-            print('-------')
             if item:
                 self.label_2.setText(name.data())
                 self.selected_product = item.data()
         except IndexError as e:
-            print('Barcode not found')
+            self.label_2.setText('PRODUCT NOT FOUND')
             pass
 
     """
@@ -168,19 +170,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def populate_customer_model(self):
         for row, customer in enumerate(self.customer_data):
+            id = QStandardItem(str(customer.id))
             item = QStandardItem(str(customer))
             self.customer_model.setItem(row, 0, item)
+            self.customer_model.setItem(row, 1, id)
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_customer_selectionChanged(self, selected):
-        for item in selected.indexes():
-            if item:
-                self.label_4.setText(item.data())
-                self.selected_customer = item.data()
-                print(self.selected_customer)
+        item = selected.indexes()[1]
+        if item:
+            self.label_4.setText(item.data())
+            self.selected_customer = item.data()
+            print(self.selected_customer)
 
-    def select_customer_for_basket(self):
-        print(self.selected_customer)
+    def clear_customer(self):
+        self.selected_customer = ''
+        self.customer_model.clear()
 
     """
     Basket & Total Values
@@ -202,9 +207,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             title = QStandardItem(str(product.title))
             quantity = QStandardItem(str(self.products_in_basket[value]))
             price_ht = QStandardItem(str(product.selling_price))
-            price = str(product.selling_price*(100+product.tax_rate)/100)
+            price = str(product.selling_price * (100 + product.tax_rate) / 100)
             view_price = QStandardItem(price)
-            total = product.selling_price*(100+product.tax_rate)/100 * self.products_in_basket[value]
+            total = product.selling_price * (100 + product.tax_rate) / 100 * self.products_in_basket[value]
             view_total = QStandardItem(str(total))
             pid = QStandardItem(str(value))
 
@@ -234,7 +239,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 data[row].append(str(model.data(index)))
         for row in data:
             totals_products.append(int(row[1]))
-            totals_HT.append(float(row[2])*int(row[1]))
+            totals_HT.append(float(row[2]) * int(row[1]))
             totals_TTC.append(float(row[4]))
 
         total_items = sum(totals_products)
@@ -274,6 +279,52 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             del self.products_in_basket[pid]
             self.basket_model.removeRow(index.row())
             self.refresh_basket_view()
+
+    def save_basket(self):
+        # Variables
+        status = Basket.STATUS_CHOICES[2]  # Open status for saved baskets
+        date_saved = timezone.now()
+
+        # Employee association
+        employee = User.objects.get(pk=1)  # TODO:Manage the logged in user to match the current employee
+
+
+        # Customer association
+        if self.selected_customer is not '':
+            customer = Customer.objects.get(pk=int(self.selected_customer))
+            basket = Basket(employee=employee, customer=customer, status=status, date_submitted=date_saved)
+        else:
+            last_customer_id = Customer.objects.last().id
+            name = 'Anonyme {}'.format(str(last_customer_id + 1))  # TODO: Make Anonymous a single client
+            anonymous_customer = Customer.objects.create(first_name=name)
+
+            basket = Basket(employee=employee, customer=anonymous_customer, status=status, date_submitted=date_saved)
+            basket.save()
+
+        basket.save()
+        print('BASKET {} SAVED'.format(basket.id))
+        # Saving the basket lines
+        lines_dict = self.products_in_basket
+        for line in lines_dict:
+            product = Product.objects.get(pk=int(line))
+            quantity = lines_dict[line]
+            price_excl_tax = product.selling_price
+            price_incl_tax = float(product.selling_price) + (float(product.selling_price) * float(product.tax_rate))/100
+
+            basket_line = BasketLine(basket=basket,
+                                     product=product,
+                                     quantity=quantity,
+                                     price_excl_tax=price_excl_tax,
+                                     price_incl_tax=price_incl_tax)
+            basket_line.save()
+            print(basket_line.line_reference + 'saved')
+        """
+        After saving a Basket or submitting one, we need to clean the basket and create a new one
+        """
+        self.clear_basket()
+        self.clear_customer()
+        self.populate_customer_model()
+        self.refresh_basket_view()
 
 
 if __name__ == "__main__":

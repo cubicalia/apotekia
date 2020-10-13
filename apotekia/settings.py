@@ -140,3 +140,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 IMAGE_FOLDER = os.path.join(BASE_DIR, "images")
 
 DEFAULT_CURRENCY = 'Dh'
+
+# Customer document prefixes
+ORDER_PREFIX = 'CPO'
+INVOICE_PREFIX = 'FAC'
+BL_PREFIX = 'BL'
+
