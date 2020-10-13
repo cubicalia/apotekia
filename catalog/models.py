@@ -27,13 +27,13 @@ class Product(models.Model):
                              max_length=128)
     # Properties
     active = models.BooleanField(_("Active"),
-                                 default=True, help_text=_("Is this product publicly visible."),)
+                                 default=True, help_text=_("Is this product publicly visible."), )
     track_stock = models.BooleanField(_("Track stock levels?"),
                                       default=True)
     is_discountable = models.BooleanField(_("Is discountable?"),
                                           default=True, help_text=_(
-        "This flag indicates if this product can be used in an offer "
-        "or not"))
+            "This flag indicates if this product can be used in an offer "
+            "or not"))
     description = models.TextField(_('Description'),
                                    blank=True)
     date_created = models.DateTimeField(_("Date created"),
@@ -44,8 +44,8 @@ class Product(models.Model):
     upc = models.CharField(_("UPC"),
                            max_length=64, blank=True, null=True, unique=True,
                            help_text=_("Universal Product Code (UPC) is an identifier for "
-                                       "a product which is not specific to a particular "
-                                       " supplier. Eg an ISBN for a book."))
+                                         "a product which is not specific to a particular "
+                                         " supplier. Eg an ISBN for a book."))
     length = models.DecimalField(_('Product length dimension'),
                                  blank=True, null=True, max_digits=6, decimal_places=2)
     width = models.DecimalField(_('Product width dimension'),
@@ -154,4 +154,3 @@ class ProductImage(models.Model):
         for idx, image in enumerate(self.product.images.all()):
             image.display_order = idx
             image.save()
-

@@ -181,10 +181,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def on_customer_selectionChanged(self, selected):
-        item = selected.indexes()[1]
+        item = selected.indexes()
         if item:
-            self.label_4.setText(item.data())
-            self.selected_customer = item.data()
+            self.label_4.setText(item[0].data())
+            self.selected_customer = item[1].data()
             print(self.selected_customer)
 
     def clear_customer(self):
