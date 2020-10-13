@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+"""
+Models to create:
+- Alerts
+- Notifications
+- Messages
+- Email
+"""
