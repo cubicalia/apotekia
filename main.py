@@ -31,7 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.product_fields = []
         self.product_data = Product.objects.all()
         self.product_model = QStandardItemModel(len(self.product_data), 7)
-        self.product_model.setHorizontalHeaderLabels(['Id', 'Product', 'Price HT', 'Price TTC', 'In stock', 'Barcode'])
+        self.product_model.setHorizontalHeaderLabels(['Id', 'Product', 'TVA', 'Price TTC', 'In stock', 'Barcode'])
         self.product_filter_proxy_model = QSortFilterProxyModel()
         self.product_filter_proxy_model.setSourceModel(self.product_model)
         self.selected_product = ""
@@ -118,14 +118,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # print(str(product))
             id = QStandardItem(str(product.id))
             title = QStandardItem(str(product.title))
-            price_ht = QStandardItem(str(product.selling_price))
-            ttc = float(product.selling_price) * float(product.tax_rate) / 100 + float(product.selling_price)
+            vat = QStandardItem(str(int(product.tax_rate)) + ' %')
+            ttc = float(product.selling_price)
             # TODO: Fix the above calculations for prices, allow only two decimals
             price_ttc = QStandardItem(str(ttc))
             barcode = QStandardItem(str(product.upc))
             self.product_model.setItem(row, 0, id)
             self.product_model.setItem(row, 1, title)
-            self.product_model.setItem(row, 2, price_ht)
+            self.product_model.setItem(row, 2, vat)
             self.product_model.setItem(row, 3, price_ttc)
             self.product_model.setItem(row, 5, barcode)
 

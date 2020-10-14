@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1185</width>
+    <width>1538</width>
     <height>840</height>
    </rect>
   </property>
@@ -525,7 +525,26 @@ Amoxiciln</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="2" column="1" colspan="3">
-       <widget class="QTableView" name="ProductsListTable"/>
+       <widget class="QTableView" name="ProductsListTable">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+       </widget>
       </item>
       <item row="1" column="1">
        <widget class="QRadioButton" name="SearchByNameradioButton">

@@ -5,7 +5,7 @@ from apotekia.utils import get_image_upload_path
 
 
 class ProductCategory(models.Model):
-    name = models.CharField(_('Name'), max_length=255, blank=True)
+    name = models.CharField(_('Name'), max_length=255, unique=True)
     parent = models.ForeignKey('self',
                                on_delete=models.CASCADE,
                                blank=True, null=True, related_name='children')
