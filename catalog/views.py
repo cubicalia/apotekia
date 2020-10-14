@@ -6,6 +6,7 @@ from templates.ui.ProductSearch import Ui_ProductSearchWidget
 from catalog.products_ui.ProductsWidget import Ui_ProductDialog
 
 from catalog.models import Product, ProductCategory
+from apotekia.settings import DEFAULT_CURRENCY
 
 
 class ProductSearchDialog(QWidget):
@@ -94,24 +95,35 @@ class ProductDialog(QDialog):
         # POPULATE DATA
         self.populate_categories()
         self.populate_products_list()
+        self.selected_product = ''
 
     def populate_categories(self):
-        categories = {}
+        tree = self.ui.CategoriestreeWidget
+        categories = []
         for item in self.category_data:
-            if item.parent is None:
-                cat = QTreeWidgetItem(self.ui.CategoriestreeWidget, [item.name])
-                self.ui.CategoriestreeWidget.addTopLevelItem(cat)
-                categories[item] = cat
-            else:
-                parent_cat = categories[item.parent]
-                cat = QTreeWidgetItem(parent_cat, [item.name])
-                parent_cat.addChild(cat)
+            list_object_parent_widget = [item, item.parent, QTreeWidgetItem([item.name])]
+            categories.append(list_object_parent_widget)
+
+        try:
+            for item in categories:
+                if item[1] is None:
+                    tree.addTopLevelItem(item[2])
+                    for re_item in categories:
+                        if re_item[0].parent == item[0]:
+                            item[2].addChild(re_item[2])
+                            for rd in categories:
+                                if rd[0].parent == re_item[0]:
+                                    re_item[2].addChild(rd[2])
+        except KeyError:
+            # TODO: Make this more recurrent to dig deeper than 3 layers of categories
+            print('Max levels reached')
 
     @pyqtSlot('QItemSelection', 'QItemSelection')
     def get_selected_category(self, selected):
         category_name = selected.indexes()[0].data()
         category = ProductCategory.objects.get(name=category_name)
         self.product_data = Product.objects.filter(category=category)
+        # TODO: Make this filter include the results of the child categories
         self.product_model = QStandardItemModel(len(self.product_data), 6)
         self.product_filter_proxy_model.setSourceModel(self.product_model)
         self.populate_products_list()
@@ -150,9 +162,19 @@ class ProductDialog(QDialog):
         item = selected.indexes()
         if item:
             self.ui.ProductTitle.setText(item[1].data())
-            self.selected_product = item[0].data()
-            print(self.selected_product)
+            pid = self.selected_product = item[0].data()
+            self.selected_product = Product.objects.get(pk=pid)
+            self.populate_product_info(self.selected_product)
 
-    def populate_product_info(self):
-        pass
+    def populate_product_info(self, product):
+        self.ui.ProductTitle.setText(product.title)
+        self.ui.CategoryResult.setText(product.category.__str__())
+        self.ui.PurchasePriceResult.setText(str(product.purchase_price) + ' ' + DEFAULT_CURRENCY)
+        self.ui.SellingPriceResult.setText(str(product.selling_price)+ ' ' + DEFAULT_CURRENCY)
+        self.ui.label_20.setText(str(product.tax_rate) + '%')
+
+
+class AddProductDialog(QDialog):
+    def __init__(self):
+        super(AddProductDialog, self).__init__()
 

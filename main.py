@@ -185,7 +185,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if item:
             self.label_4.setText(item[0].data())
             self.selected_customer = item[1].data()
-            print(self.selected_customer)
+            # print(self.selected_customer)
 
     def clear_customer(self):
         self.selected_customer = ''
@@ -259,14 +259,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def add_product_to_basket(self):
         if self.selected_product not in self.products_in_basket.keys():
             if self.selected_product != '':
-                # print('product not in basket, adding it now')
                 self.products_in_basket[self.selected_product] = 1
             else:
                 print('nothing selected')
         else:
-            # print('Product already in basket, adding to the quantity')
             self.products_in_basket[self.selected_product] += 1
-            # print(self.products_in_basket)
 
         self.refresh_basket_view()
 
@@ -325,7 +322,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                      price_excl_tax=price_excl_tax,
                                      price_incl_tax=price_incl_tax)
             basket_line.save()
-            print(basket_line.line_reference + 'saved')
         """
         After saving a Basket or submitting one, we need to clean the basket and create a new one
         """
@@ -372,7 +368,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             find_product_locations(product)
             # basket_line.save()
             # inventory_entry.save()
-            print(basket_line.line_reference + 'saved')
 
         """
         After saving a Basket or submitting one, we need to clean the basket and create a new one

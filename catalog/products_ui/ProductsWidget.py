@@ -331,8 +331,7 @@ class Ui_ProductDialog(object):
         self.label_21.setText(_translate("ProductDialog", "TextLabel"))
         self.ImageLabel_2.setText(_translate("ProductDialog", "Image"))
         self.CategoryLabel.setText(_translate("ProductDialog", "Category:"))
-        self.ProductTitle.setText(_translate("ProductDialog", "ALFAMOX 500mg:\n"
-"Amoxiciln"))
+        self.ProductTitle.setText(_translate("ProductDialog", ""))
         self.CategoryResult.setText(_translate("ProductDialog", "Category --> Medicine  --> Antibiotic"))
         self.groupBox.setTitle(_translate("ProductDialog", "Products"))
         self.SearchByNameradioButton.setText(_translate("ProductDialog", "By name"))

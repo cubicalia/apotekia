@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddProductDialog</class>
+ <widget class="QWidget" name="AddProductDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>968</width>
+    <height>848</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="2" rowspan="2">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Stock Info</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="widthLabel">
+        <property name="text">
+         <string>Width:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="widthDoubleSpinBox"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="widthDoubleSpinBox_2"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="widthDoubleSpinBox_3"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="widthLabel_3">
+        <property name="text">
+         <string>Length:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="widthLabel_2">
+        <property name="text">
+         <string>Height:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="widthLabel_4">
+        <property name="text">
+         <string>Net Wheight:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDoubleSpinBox" name="widthDoubleSpinBox_4"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDoubleSpinBox" name="widthDoubleSpinBox_5"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="widthLabel_5">
+        <property name="text">
+         <string>Gross Whieght</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Product Info</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="8" column="0">
+       <widget class="QLabel" name="refLabel">
+        <property name="text">
+         <string>Titile</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="refLineEdit"/>
+      </item>
+      <item row="9" column="1">
+       <widget class="QCheckBox" name="stateCheckBox">
+        <property name="text">
+         <string>Yes</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="initialBalanceLabel">
+        <property name="text">
+         <string>UPC 1:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLineEdit" name="initialBalanceLineEdit">
+        <property name="inputMask">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="bankLabel">
+        <property name="text">
+         <string>UPC 2:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLineEdit" name="bankLineEdit"/>
+      </item>
+      <item row="12" column="1">
+       <widget class="QDoubleSpinBox" name="purchasePriceExclTaxDoubleSpinBox">
+        <property name="maximum">
+         <double>999999999999999.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="sellingPriceLabel">
+        <property name="text">
+         <string>Selling Price</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QDoubleSpinBox" name="purchasePriceExclTaxDoubleSpinBox_2">
+        <property name="maximum">
+         <double>999999999999999.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="sellingPriceLabel_2">
+        <property name="text">
+         <string>VAT</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QDoubleSpinBox" name="purchasePriceExclTaxDoubleSpinBox_3">
+        <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="0">
+       <widget class="QLabel" name="categoryLabel">
+        <property name="text">
+         <string>Category</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="QComboBox" name="categoryComboBox"/>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="purchasePriceExclTaxLabel">
+        <property name="text">
+         <string>Purchase Price Excl.Tax</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="stateLabel">
+        <property name="text">
+         <string>Track Stock:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Images and documents</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="graphicsView"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1" rowspan="2">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Pharmaceutical Info</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="8" column="0">
+       <widget class="QLabel" name="refLabel_2">
+        <property name="text">
+         <string>DCI:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="refLineEdit_2"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="stateLabel_2">
+        <property name="text">
+         <string>Manufacturer</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="refLineEdit_3"/>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLineEdit" name="therapeuticClassLineEdit"/>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="refundableLabel">
+        <property name="text">
+         <string>Refundable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QCheckBox" name="refundableCheckBox"/>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="therapeuticClassLabel">
+        <property name="text">
+         <string>Therapeutic Class</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="refundableAmountLabel">
+        <property name="text">
+         <string>Refundable Amount</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="QLineEdit" name="refundableAmountLineEdit"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
