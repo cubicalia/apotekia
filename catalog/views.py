@@ -1,9 +1,11 @@
+from decimal import Decimal as D
 from PyQt5.QtWidgets import QDialog, QWidget, QTreeWidgetItem
 from PyQt5.QtCore import Qt, QSortFilterProxyModel, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 from templates.ui.ProductSearch import Ui_ProductSearchWidget
 from catalog.products_ui.ProductsWidget import Ui_ProductDialog
+from catalog.products_ui.AddProductDialog import Ui_AddProductDialog
 
 from catalog.models import Product, ProductCategory
 from apotekia.settings import DEFAULT_CURRENCY
@@ -91,6 +93,8 @@ class ProductDialog(QDialog):
         self.ui.ProductSearchArea.textChanged.connect(self.product_filter_proxy_model.setFilterRegExp)
         self.ui.CategoriestreeWidget.selectionModel().selectionChanged.connect(self.get_selected_category)
         self.ui.ProductsListTable.setModel(self.product_filter_proxy_model)
+        self.ui.addProductButon.clicked.connect(self.add_product)
+
 
         # POPULATE DATA
         self.populate_categories()
@@ -173,8 +177,52 @@ class ProductDialog(QDialog):
         self.ui.SellingPriceResult.setText(str(product.selling_price)+ ' ' + DEFAULT_CURRENCY)
         self.ui.label_20.setText(str(product.tax_rate) + '%')
 
+    def add_product(self):
+        dialog = AddProductDialog()
+        dialog.exec_()
+        dialog.show()
+
 
 class AddProductDialog(QDialog):
     def __init__(self):
         super(AddProductDialog, self).__init__()
+
+        self.ui = Ui_AddProductDialog()
+        self.ui.setupUi(self)
+        self.setWindowTitle('Add Product')
+
+        self.populate_category_combo_box()
+
+        self.ui.pushButton_2.clicked.connect(self.get_data_dict)
+
+    def populate_category_combo_box(self):
+        categories = ProductCategory.objects.all()
+        display_list = [str(category.id) + '|' + category.__str__() for category in categories]
+        self.ui.comboBox.addItems(display_list)
+
+    def get_data_dict(self):
+        data_dict = {}
+        data_dict['title'] = self.ui.lineEdit.text()
+        data_dict['track_stock'] = self.ui.checkBox.checkState()
+        data_dict['UPC_1'] = self.ui.lineEdit_4.text()
+        data_dict['UPC_2'] = self.ui.lineEdit_6.text()
+        data_dict['purchase_price_ET'] = D(self.ui.doubleSpinBox.text())
+        data_dict['selling_price_ET'] = D(self.ui.doubleSpinBox_2.text())
+        data_dict['tax_rate'] = D(self.ui.doubleSpinBox_3.text())
+        data_dict['category'] = int(self.ui.comboBox.currentText().split('|')[0])
+        data_dict['dci'] = self.ui.refLineEdit_2.text()
+        data_dict['manufacturer'] = self.ui.refLineEdit_3.text()
+        data_dict['th'] = self.ui.therapeuticClassLineEdit.text()
+        data_dict['refindable'] = self.ui.refundableCheckBox.checkState()
+        data_dict['refundable_amount'] = D(self.ui.doubleSpinBox_4.text())
+        data_dict['width'] = D(self.ui.widthDoubleSpinBox.text())
+        data_dict['length'] = D(self.ui.widthDoubleSpinBox_3.text())
+        data_dict['height'] = D(self.ui.widthDoubleSpinBox_2.text())
+        data_dict['net_weight'] = D(self.ui.widthDoubleSpinBox_4.text())
+        data_dict['gross_weight'] = D(self.ui.widthDoubleSpinBox_5.text())
+
+        print(data_dict)
+
+    def validate_data_dict(self, dict):
+        pass
 
