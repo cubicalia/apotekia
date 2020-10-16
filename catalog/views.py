@@ -7,68 +7,10 @@ from templates.ui.ProductSearch import Ui_ProductSearchWidget
 from catalog.products_ui.ProductsWidget import Ui_ProductDialog
 from catalog.products_ui.AddProductDialog import Ui_AddProductDialog
 
+from communications.views import RequiredFieldDialog
+
 from catalog.models import Product, ProductCategory
 from apotekia.settings import DEFAULT_CURRENCY
-
-
-class ProductSearchDialog(QWidget):
-    def __init__(self):
-        super(ProductSearchDialog, self).__init__()
-        self.setMinimumHeight(400)
-        # Set up the user interface from Designer.
-
-        self.fields = []
-        self.data = Product.objects.all()
-        self.model = QStandardItemModel(len(self.data), 1)
-        self.model.setHorizontalHeaderLabels(['Product'])
-        self.populate_model()
-
-        self.filter_proxy_model = QSortFilterProxyModel()
-        self.filter_proxy_model.setSourceModel(self.model)
-        self.filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        self.filter_proxy_model.setFilterKeyColumn(0)
-
-        self.ui = Ui_ProductSearchWidget()
-        self.ui.setupUi(self)
-        self.ui.SearchField.textChanged.connect(self.filter_proxy_model.setFilterRegExp)
-        self.ui.ResultsTable.setModel(self.filter_proxy_model)
-
-        # Connect up the buttons.
-        self.ui.SelectionButton.clicked.connect(self.get_field_values)
-
-        selection_model = self.ui.ResultsTable.selectionModel()
-        selection_model.selectionChanged.connect(self.on_selectionChanged)
-
-        self.selected = ""
-
-    def populate_model_fields(self):
-        # for row in self.product_data:
-        #     print(row)
-
-        fields = Product._meta.get_fields(include_parents=False)
-        for field in fields:
-            if not str(field).startswith('<'):
-                self.fields.append(str(field.name))
-
-    def get_field_values(self):
-        customer_dicts = Product.objects.values()
-        for customer in customer_dicts:
-            print(customer)
-
-    def populate_model(self):
-        for row, customer in enumerate(self.data):
-            print(str(customer))
-            item = QStandardItem(str(customer))
-            self.model.setItem(row, 0, item)
-
-    @pyqtSlot('QItemSelection', 'QItemSelection')
-    def on_selectionChanged(self, selected):
-        print("selected: ")
-        for item in selected.indexes():
-            if item:
-                self.ui.SelectionLabel.setText(item.product_data())
-                self.selected = item.product_data()
-                print(self.selected)
 
 
 class ProductDialog(QDialog):
@@ -94,7 +36,6 @@ class ProductDialog(QDialog):
         self.ui.CategoriestreeWidget.selectionModel().selectionChanged.connect(self.get_selected_category)
         self.ui.ProductsListTable.setModel(self.product_filter_proxy_model)
         self.ui.addProductButon.clicked.connect(self.add_product)
-
 
         # POPULATE DATA
         self.populate_categories()
@@ -174,13 +115,17 @@ class ProductDialog(QDialog):
         self.ui.ProductTitle.setText(product.title)
         self.ui.CategoryResult.setText(product.category.__str__())
         self.ui.PurchasePriceResult.setText(str(product.purchase_price) + ' ' + DEFAULT_CURRENCY)
-        self.ui.SellingPriceResult.setText(str(product.selling_price)+ ' ' + DEFAULT_CURRENCY)
+        self.ui.SellingPriceResult.setText(str(product.selling_price) + ' ' + DEFAULT_CURRENCY)
         self.ui.label_20.setText(str(product.tax_rate) + '%')
 
     def add_product(self):
         dialog = AddProductDialog()
         dialog.exec_()
         dialog.show()
+
+    def refresh_all(self):
+        self.product_model.clear()
+        self.populate_products_list()
 
 
 class AddProductDialog(QDialog):
@@ -193,7 +138,9 @@ class AddProductDialog(QDialog):
 
         self.populate_category_combo_box()
 
-        self.ui.pushButton_2.clicked.connect(self.get_data_dict)
+        # self.ui.pushButton_2.clicked.connect(self.validate_data_dict)
+
+        self.ui.pushButton_2.clicked.connect(self.validate_data_dict)
 
     def populate_category_combo_box(self):
         categories = ProductCategory.objects.all()
@@ -201,28 +148,79 @@ class AddProductDialog(QDialog):
         self.ui.comboBox.addItems(display_list)
 
     def get_data_dict(self):
+        """
+        This function gets the data in the ADD PRODUCT FORM and stores it in a dictionary.
+        The value of the dictionary is a list of the value and a boolean that informs if the
+        field is required.
+        :return:
+        Dictionary in the form of { 'field': ['value', boolean]
+        """
+
         data_dict = {}
-        data_dict['title'] = self.ui.lineEdit.text()
-        data_dict['track_stock'] = self.ui.checkBox.checkState()
-        data_dict['UPC_1'] = self.ui.lineEdit_4.text()
-        data_dict['UPC_2'] = self.ui.lineEdit_6.text()
-        data_dict['purchase_price_ET'] = D(self.ui.doubleSpinBox.text())
-        data_dict['selling_price_ET'] = D(self.ui.doubleSpinBox_2.text())
-        data_dict['tax_rate'] = D(self.ui.doubleSpinBox_3.text())
-        data_dict['category'] = int(self.ui.comboBox.currentText().split('|')[0])
-        data_dict['dci'] = self.ui.refLineEdit_2.text()
-        data_dict['manufacturer'] = self.ui.refLineEdit_3.text()
-        data_dict['th'] = self.ui.therapeuticClassLineEdit.text()
-        data_dict['refindable'] = self.ui.refundableCheckBox.checkState()
-        data_dict['refundable_amount'] = D(self.ui.doubleSpinBox_4.text())
-        data_dict['width'] = D(self.ui.widthDoubleSpinBox.text())
-        data_dict['length'] = D(self.ui.widthDoubleSpinBox_3.text())
-        data_dict['height'] = D(self.ui.widthDoubleSpinBox_2.text())
-        data_dict['net_weight'] = D(self.ui.widthDoubleSpinBox_4.text())
-        data_dict['gross_weight'] = D(self.ui.widthDoubleSpinBox_5.text())
+        # General data
+        data_dict['title'] = [self.ui.lineEdit.text(), True]
+        data_dict['track_stock'] = [self.ui.checkBox.checkState(), False]
+        data_dict['UPC_1'] = [self.ui.lineEdit_4.text(), False]
+        data_dict['UPC_2'] = [self.ui.lineEdit_6.text(), False]
+        data_dict['purchase_price_ET'] = [D(self.ui.doubleSpinBox.text()), False]
+        data_dict['selling_price_ET'] = [D(self.ui.doubleSpinBox_2.text()), False]
+        data_dict['tax_rate'] = [D(self.ui.doubleSpinBox_3.text()), False]
+        data_dict['category'] = [int(self.ui.comboBox.currentText().split('|')[0]), False]
 
-        print(data_dict)
+        # Pharmaceutical data
+        data_dict['dci'] = [self.ui.refLineEdit_2.text(), True]
+        data_dict['manufacturer'] = [self.ui.refLineEdit_3.text(), False]
+        data_dict['th'] = [self.ui.therapeuticClassLineEdit.text(), True]
+        data_dict['refundable'] = [self.ui.refundableCheckBox.checkState(), False]
+        data_dict['refundable_amount'] = [D(self.ui.doubleSpinBox_4.text()), False]
+        data_dict['prescription'] = [self.ui.checkBox_2.checkState(), False]
+        data_dict['pharma_form'] = [self.ui.lineEdit_2.text(), True]
+        data_dict['tableau'] = [self.ui.lineEdit_3.text(), False]
 
-    def validate_data_dict(self, dict):
-        pass
+        # Shipping data
+        data_dict['width'] = [D(self.ui.widthDoubleSpinBox.text()), False]
+        data_dict['length'] = [D(self.ui.widthDoubleSpinBox_3.text()), False]
+        data_dict['height'] = [D(self.ui.widthDoubleSpinBox_2.text()), False]
+        data_dict['net_weight'] = [D(self.ui.widthDoubleSpinBox_4.text()), False]
+        data_dict['gross_weight'] = [D(self.ui.widthDoubleSpinBox_5.text()), False]
 
+        return data_dict
+
+    def validate_data_dict(self):
+        product_dict = self.get_data_dict()
+        required_fields = []
+        for key in product_dict:
+            if product_dict[key][1] and len(product_dict[key][0]) == 0:
+                required_fields.append(key)
+        print(len(required_fields))
+        if len(required_fields) != 0:
+            self.show_required_fields(required_fields)
+        else:
+            print('Data is valid')
+            self.submit_data()
+
+    def show_required_fields(self, required_fields):
+        dialog = RequiredFieldDialog(required_fields)
+        dialog.exec_()
+        dialog.show()
+
+    def submit_data(self):
+        data_dict = self.get_data_dict()
+        product = Product(title=data_dict['title'][0],
+                          track_stock=True if data_dict['track_stock'][0] == 2 else False,
+                          upc=data_dict['UPC_1'][0],
+                          upc_2=data_dict['UPC_2'][0],
+                          purchase_price=float(data_dict['purchase_price_ET'][0]),
+                          selling_price=float(data_dict['selling_price_ET'][0]),
+                          tax_rate=float(data_dict['tax_rate'][0]),
+                          category=ProductCategory.objects.get(pk=data_dict['category'][0]),
+                          dci=data_dict['dci'][0],
+                          lab=data_dict['manufacturer'][0],
+                          th_class=data_dict['th'][0],
+                          refundable=True if data_dict['refundable'][0] == 2 else False,
+                          prescription=True if data_dict['prescription'][0] == 2 else False,
+                          pharma_form=data_dict['pharma_form'][0],
+                          tableau=data_dict['tableau'][0]
+                          )
+        product.save()
+        self.close()

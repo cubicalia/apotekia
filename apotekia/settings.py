@@ -26,11 +26,9 @@ SECRET_KEY = 'ao%_$xyw%vgq65%nsahn(p%a+_(j2u5^f)6lbst2026z^#vk4f'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
 # Application definition
 
-APPS = [
+APPS = ['address',
         'banking',
         'customers',
         'catalog',
@@ -140,6 +138,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 IMAGE_FOLDER = os.path.join(BASE_DIR, "images")
 
 DEFAULT_CURRENCY = 'Dh'
+DEFAULT_ADDRESS_FIELDS = ('first_name', 'last_name', 'line1', 'line4', 'postcode', 'country')
 
 # Customer document prefixes
 ORDER_PREFIX = 'CPO'

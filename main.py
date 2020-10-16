@@ -1,7 +1,9 @@
 from apotekia import db_setup
+
 import sys
 import numpy as np
 from django.utils import timezone
+from django.core.management import call_command
 
 from PyQt5.QtCore import QSortFilterProxyModel, Qt, pyqtSlot
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -62,6 +64,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_11.clicked.connect(self.clear_basket)
         self.SubmitSaleButton.clicked.connect(self.submit_basket)
         self.SaveForLaterButton.clicked.connect(self.save_basket)
+        self.refreshButton.clicked.connect(self.refresh_all)
 
         self.initiate_basket_view()
 
@@ -374,9 +377,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.clear_all()
 
+    def refresh_all(self):
+        self.product_model.clear()
+        self.clear_all()
+        self.populate_products_list()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     mainWin = MainWindow()
     mainWin.show()
     sys.exit(app.exec_())
+
+
+""" To run migrations within our code"""
+# call_command("makemigrations", interactive=False)
+# call_command("migrate", interactive=False)

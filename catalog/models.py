@@ -44,13 +44,13 @@ class Product(models.Model):
     upc = models.CharField(_("UPC"),
                            max_length=64, blank=True, null=True, unique=True,
                            help_text=_("Universal Product Code (UPC) is an identifier for "
-                                         "a product which is not specific to a particular "
-                                         " supplier. Eg an ISBN for a book."))
-    upc_2 = models.CharField(_("UPC 2"),
-                           max_length=64, blank=True, null=True, unique=True,
-                           help_text=_("Universal Product Code (UPC) is an identifier for "
                                        "a product which is not specific to a particular "
                                        " supplier. Eg an ISBN for a book."))
+    upc_2 = models.CharField(_("UPC 2"),
+                             max_length=64, blank=True, null=True, unique=True,
+                             help_text=_("Universal Product Code (UPC) is an identifier for "
+                                         "a product which is not specific to a particular "
+                                         " supplier. Eg an ISBN for a book."))
     length = models.DecimalField(_('Product length dimension'),
                                  blank=True, null=True, max_digits=6, decimal_places=2)
     width = models.DecimalField(_('Product width dimension'),
@@ -86,11 +86,6 @@ class Product(models.Model):
     tableau = models.CharField(_('Tableau'), max_length=128, blank=True, null=True)
     marketable = models.CharField(_('Marketable'), max_length=128, blank=True, null=True)
     refundable = models.BooleanField(_('Refundable'), default=True, blank=True, null=True)
-    adult_dosage = models.TextField(_('Adult Dosage'), blank=True, null=True)
-    child_dosage = models.TextField(_('Child Dosage'), blank=True, null=True)
-    driving_indication = models.TextField(_('Driving Indication'), blank=True, null=True)
-    baby_feeding_indication = models.TextField(_('Baby Feeding Indication'), blank=True, null=True)
-    pregnancy_indication = models.TextField(_('Pregnancy Indication'), blank=True, null=True)
 
     class Meta:
         app_label = 'catalog'
