@@ -16,3 +16,17 @@ suppliers/__pycache__/
 suppliers/migrations/__pycache__/
 templates/ui/__pycache__/
 /sobrus_crawler/
+/address/migrations/
+/analytics/migrations/
+/banking/migrations/
+/catalog/migrations/
+/communications/migrations/
+/customers/migrations/
+/inventory/migrations/
+/payment/migrations/
+/pos/migrations/
+/purchases/migrations/
+/returns/migrations/
+/sales/migrations/
+/sobrus_crawler/
+/suppliers/migrations/
