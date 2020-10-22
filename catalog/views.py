@@ -27,7 +27,6 @@ class ProductDialog(QDialog):
         self.product_model.setHorizontalHeaderLabels(self.product_fields)
         self.product_filter_proxy_model = QSortFilterProxyModel()
         self.product_filter_proxy_model.setSourceModel(self.product_model)
-        self.selected_product = ""
 
         self.ui = Ui_ProductDialog()
         self.ui.setupUi(self)
