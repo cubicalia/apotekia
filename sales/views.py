@@ -30,9 +30,10 @@ class BasketDialog(QDialog):
 
         self.basket_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.basket_filter_proxy_model.setFilterKeyColumn(0)
-
         self.ui.lineEdit.textChanged.connect(self.basket_filter_proxy_model.setFilterRegExp)
         self.ui.tableView.setModel(self.basket_filter_proxy_model)
+
+        # TODO: Set multiple column filter for the model
 
     def populate_baskets_model(self):
         for row, basket in enumerate(self.basket_data):
@@ -44,4 +45,19 @@ class BasketDialog(QDialog):
             self.basket_model.setItem(row, 1, customer)
             self.basket_model.setItem(row, 2, date)
             self.basket_model.setItem(row, 3, total)
+
+    def delete_basket(self):
+        pass
+
+    def convert_basket_to_sale(self):
+        pass
+
+    def convert_basket_to_proforma(self):
+        pass
+
+    def convert_basket_to_order(self):
+        pass
+
+    def convert_basket_to_invoice(self):
+        pass
 
