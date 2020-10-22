@@ -21,10 +21,10 @@ class ProductDialog(QDialog):
         self.category_data = ProductCategory.objects.all()
 
         """PRODUCTS"""
-        self.product_fields = []
+        self.product_fields = ['Id', 'Product', 'PPH', 'TVA', 'PPV', 'Barcode']
         self.product_data = Product.objects.all()
         self.product_model = QStandardItemModel(len(self.product_data), 6)
-        self.product_model.setHorizontalHeaderLabels(['Id', 'Product', 'PPH', 'TVA', 'PPV', 'Barcode'])
+        self.product_model.setHorizontalHeaderLabels(self.product_fields)
         self.product_filter_proxy_model = QSortFilterProxyModel()
         self.product_filter_proxy_model.setSourceModel(self.product_model)
         self.selected_product = ""

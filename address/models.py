@@ -219,7 +219,7 @@ class Address(models.Model):
     country = models.ForeignKey('address.Country', on_delete=models.CASCADE, verbose_name=_("Country"))
 
     # Fields, used for `summary` property definition and hash generation.
-    base_fields = hash_fields = ['salutation', 'line1', 'line2', 'line3', 'line4', 'state', 'postcode', 'country']
+    base_fields = hash_fields = ['line1', 'line2', 'line3', 'line4', 'state', 'postcode', 'country']
 
     def __str__(self):
         return self.summary

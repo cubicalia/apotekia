@@ -23,11 +23,7 @@ class PaymentSource(models.Model):
     A Payment is tracked using its source type(credit card, debit card, cash, check, etc)
     And this model refers to the actual instance of the source (eg: A specific credit card, check, etc)
     """
-    order = models.ForeignKey(
-        'sales.CustomerOrder',
-        on_delete=models.CASCADE,
-        related_name='sources',
-        verbose_name=_("Order"))
+    reference = models.CharField(_("Reference"), max_length=255, blank=True)
     source_type = models.ForeignKey(
         'payment.PaymentSourceType',
         on_delete=models.CASCADE,
@@ -38,7 +34,6 @@ class PaymentSource(models.Model):
 
     # Reference number for this payment source.  This is often used to look up
     # a transaction model for a particular payment partner.
-    reference = models.CharField(_("Reference"), max_length=255, blank=True)
 
     class Meta:
         app_label = 'payment'
@@ -48,7 +43,6 @@ class PaymentSource(models.Model):
 
     def __str__(self):
         description = _('Payment for order: %(prder)s from type %(type)s') % {
-            'order': self.order,
             'type': self.source_type}
         return description
 

@@ -1,3 +1,4 @@
+from apotekia import db_setup
 from inventory.models import InventoryEntry, InventoryLocation, WareHouse
 
 

@@ -94,6 +94,38 @@ class BasketLine(models.Model):
         return 'Line {} of basket: '.format(self.pk) + str(self.basket.pk)
 
 
+class Sale(models.Model):
+    reference = models.SlugField(
+        _("Reference"), max_length=128, db_index=True, unique=True)
+
+    basket = models.ForeignKey(
+        'sales.Basket',
+        on_delete=models.CASCADE,
+        related_name='sale',
+        verbose_name=_("Basket"))
+
+    payment = models.OneToOneField('payment.Transaction',
+                                   on_delete=models.SET_NULL,
+                                   related_name='sale',
+                                   verbose_name=_('Payment'),
+                                   null=True)
+
+    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
+    date_updated = models.DateTimeField(_("Date Updated"), auto_now=True, db_index=True)
+
+    class Meta:
+        app_label = 'sales'
+        # Enforce sorting by order of creation.
+        ordering = ['date_created', 'pk']
+        verbose_name = _('Sale')
+        verbose_name_plural = _('Sales')
+
+    def __str__(self):
+        return '{} - {} - {} - {}'.format(self.reference,
+                                          self.customer.get_full_name(),
+                                          str(self.payment.amount),
+                                          self.date_created.strftime('dd-mm-yyyy'))
+
 class CustomerOrder(models.Model):
     number = models.CharField(_("Order number"),
                               max_length=128,
