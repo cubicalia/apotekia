@@ -42,7 +42,7 @@ class PaymentSource(models.Model):
         verbose_name_plural = _("Sources")
 
     def __str__(self):
-        description = _('Payment for order: %(prder)s from type %(type)s') % {
+        description = _('Payment from type %(type)s') % {
             'type': self.source_type}
         return description
 

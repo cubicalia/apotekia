@@ -106,7 +106,7 @@ class ProductDialog(QDialog):
         item = selected.indexes()
         if item:
             self.ui.ProductTitle.setText(item[1].data())
-            pid = self.selected_product = item[0].data()
+            pid = item[0].data()
             self.selected_product = Product.objects.get(pk=pid)
             self.populate_product_info(self.selected_product)
 

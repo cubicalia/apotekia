@@ -16,13 +16,6 @@ class Basket(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_("Employee"))
 
-    customer = models.ForeignKey(
-        'customers.Customer',
-        null=True,
-        related_name='sales',
-        on_delete=models.PROTECT,
-        verbose_name=_("Customer"))
-
     # Basket statuses
     # - Frozen is for when a basket is in the process of being submitted
     #   and we need to prevent any changes to it.
@@ -98,6 +91,13 @@ class Sale(models.Model):
     reference = models.SlugField(
         _("Reference"), max_length=128, db_index=True, unique=True)
 
+    customer = models.ForeignKey(
+        'customers.Customer',
+        null=True,
+        related_name='sales',
+        on_delete=models.PROTECT,
+        verbose_name=_("Customer"))
+
     basket = models.ForeignKey(
         'sales.Basket',
         on_delete=models.CASCADE,
@@ -124,7 +124,8 @@ class Sale(models.Model):
         return '{} - {} - {} - {}'.format(self.reference,
                                           self.customer.get_full_name(),
                                           str(self.payment.amount),
-                                          self.date_created.strftime('dd-mm-yyyy'))
+                                          self.date_created.strftime('%d/%m/%Y %H:%M:%S'))
+
 
 class CustomerOrder(models.Model):
     number = models.CharField(_("Order number"),
