@@ -18,7 +18,7 @@ from inventory.views import InventoryDialog
 from catalog.views import ProductDialog
 from customers.views import CustomerDialog
 from banking.views import BankingDialog
-from sales.views import BasketDialog
+from sales.views import BasketDialog, SalesDialog
 
 from apotekia import settings
 
@@ -79,6 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_7.clicked.connect(self.open_banking_dialog)
         self.pushButton_8.clicked.connect(self.open_customer_dialog)
         self.pushButton_5.clicked.connect(self.open_baskets_dialog)
+        self.pushButton_12.clicked.connect(self.open_sales_dialog)
 
     def open_inventory_dialog(self):
         dialog = InventoryDialog()
@@ -102,6 +103,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def open_baskets_dialog(self):
         dialog = BasketDialog()
+        dialog.exec_()
+        dialog.show()
+
+    def open_sales_dialog(self):
+        dialog = SalesDialog()
         dialog.exec_()
         dialog.show()
 
