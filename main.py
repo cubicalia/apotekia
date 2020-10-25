@@ -10,7 +10,8 @@ from inventory.utils import find_product_locations
 from catalog.models import Product
 from customers.models import Customer
 from inventory.models import InventoryEntry
-from sales.models import Basket, BasketLine
+from sales.models import Basket, BasketLine, Sale
+from payment.models import Transaction, PaymentSourceType, PaymentSource
 from django.contrib.auth.models import User
 
 from pos.pos_ui.PointOfSale import Ui_MainWindow
@@ -19,6 +20,7 @@ from catalog.views import ProductDialog
 from customers.views import CustomerDialog
 from banking.views import BankingDialog
 from sales.views import BasketDialog, SalesDialog
+from communications.views import MessageDialog
 
 from apotekia import settings
 
@@ -43,15 +45,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.customer_model = QStandardItemModel(len(self.customer_data), 2)
         self.customer_filter_proxy_model = QSortFilterProxyModel()
         self.customer_filter_proxy_model.setSourceModel(self.customer_model)
-        self.selected_customer = ""
+        self.selected_customer = ''
 
         # Basket Data
         self.products_in_basket = {}
         self.basket_model = QStandardItemModel(len(self.products_in_basket.keys()), 4)
 
         self.client_for_basket = ''
-        self.payment_source_type = ''
-        self.payment_source = ''
+        self.payment_source_types = PaymentSourceType.objects.all()
+
+        self.total_basket = 0.00
+
 
         self.setupUi(self)
         self.initiate_module_menu()
@@ -59,13 +63,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.populate_products_list()
         self.populate_customers_list()
+        for item in self.payment_source_types:
+            self.comboBox.addItem(item.name)
         self.pushButton_10.clicked.connect(self.remove_item_from_basket)
         self.pushButton_11.clicked.connect(self.clear_basket)
         self.SubmitSaleButton.clicked.connect(self.submit_basket)
         self.SaveForLaterButton.clicked.connect(self.save_basket)
         self.refreshButton.clicked.connect(self.refresh_all)
-        self.pushButton_3.clicked.connect((self.open_baskets_dialog))
-
+        self.pushButton_3.clicked.connect(self.open_baskets_dialog)
 
         self.initiate_basket_view()
 
@@ -207,7 +212,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if item:
             self.label_4.setText(item[0].data())
             self.selected_customer = item[1].data()
-            # print(self.selected_customer)
+            print(self.selected_customer)
 
     def clear_customer(self):
         self.selected_customer = ''
@@ -277,6 +282,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.TotlaLCDDisplay.setDigitCount(10)
         self.TotlaLCDDisplay.display(str("{:.2f}".format(total)))
         self.TotlaLCDDisplay.repaint()
+        self.total_basket = total
 
     def add_product_to_basket(self):
         if self.selected_product not in self.products_in_basket.keys():
@@ -311,7 +317,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def save_basket(self):
         # Variables
-        status = Basket.STATUS_CHOICES[2]  # Open status for saved baskets
+        status = Sale.STATUS_CHOICES[2]  # Open status for saved baskets
         date_saved = timezone.now()
 
         # Employee association
@@ -350,29 +356,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.clear_all()
 
     def submit_basket(self):
-        # Variables
-        status = Basket.STATUS_CHOICES[4]  # Open status for saved baskets
-        date_saved = timezone.now()
-
-        # Employee association
-        employee = User.objects.get(pk=1)  # TODO:Manage the logged in user to match the current employee
-
-        # Customer association
+        # Selecting the customer
+        customer_id = 1
         if self.selected_customer is not '':
-            customer = Customer.objects.get(pk=int(self.selected_customer))
-            basket = Basket(employee=employee, customer=customer, status=status, date_submitted=date_saved)
+            customer_id = int(self.selected_customer)
         else:
-            last_customer_id = Customer.objects.last().id
-            name = 'Anonyme {}'.format(str(last_customer_id + 1))  # TODO: Make Anonymous a single client
-            anonymous_customer = Customer.objects.create(first_name=name)
+            print('Please select a customer')
 
-            basket = Basket(employee=employee, customer=anonymous_customer, status=status, date_submitted=date_saved)
-            basket.save()
+        customer = Customer.objects.get(pk=customer_id)
 
+        # Selecting the employee
+        employee = User.objects.get(pk=1) # TODO: Modify this after implementing the login
+
+        # Creating the basket
+        date_submitted = timezone.now()
+        basket = Basket(date_submitted=date_submitted)
         basket.save()
-        print('BASKET {} SUBMITTED'.format(basket.id))
 
-        # Saving the basket lines and reducing the inventory
+        # Creating the basket lines
         lines_dict = self.products_in_basket
         for line in lines_dict:
             product = Product.objects.get(pk=int(line))
@@ -380,20 +381,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             price_excl_tax = product.selling_price
             price_incl_tax = float(product.selling_price) + (
                     float(product.selling_price) * float(product.tax_rate)) / 100
-
+            # TODO: This line has to be fed from the Basket Table,
+            #  as user can modify prices at checkout
             basket_line = BasketLine(basket=basket,
                                      product=product,
                                      quantity=quantity,
                                      price_excl_tax=price_excl_tax,
                                      price_incl_tax=price_incl_tax)
-            inventory_entry = InventoryEntry(product=product, qty=-quantity)
-            find_product_locations(product)
-            # basket_line.save()
-            # inventory_entry.save()
+            basket_line.save()
 
-        """
-        After saving a Basket or submitting one, we need to clean the basket and create a new one
-        """
+        # Selecting the payment
+        payment_source_type_text = self.comboBox.currentText()
+        payment_source_type = PaymentSourceType.objects.get(name=payment_source_type_text)
+        payment_source_reference = self.PaymentReferenceField.text()
+        payment_source = PaymentSource(reference=payment_source_reference,
+                                       source_type=payment_source_type)
+        payment_source.save()
+
+        payment = Transaction(source=payment_source,
+                              amount=self.total_basket)
+        payment.save()
+
+        sale = Sale(basket=basket,
+                    employee=employee,
+                    payment=payment,
+                    customer=customer)
+        # TODO: Need to add Inventory Entries after submitting a sale
+
+        sale.save()
+
+        msg = MessageDialog('The sale has been submitted')
+        msg.exec_()
+        msg.show()
+
         self.clear_all()
 
     def refresh_all(self):

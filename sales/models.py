@@ -9,27 +9,10 @@ from customers.models import Customer
 
 
 class Basket(models.Model):
-    employee = models.ForeignKey(
-        AUTH_USER_MODEL,
-        null=True,
-        related_name='sales',
-        on_delete=models.CASCADE,
-        verbose_name=_("Employee"))
 
     # Basket statuses
     # - Frozen is for when a basket is in the process of being submitted
     #   and we need to prevent any changes to it.
-    OPEN, MERGED, SAVED, FROZEN, SUBMITTED = (
-        "Open", "Merged", "Saved", "Frozen", "Submitted")
-    STATUS_CHOICES = (
-        (OPEN, _("Open - currently active")),
-        (MERGED, _("Merged - superceded by another basket")),
-        (SAVED, _("Saved - for items to be purchased later")),
-        (FROZEN, _("Frozen - the basket cannot be modified")),
-        (SUBMITTED, _("Submitted - has been ordered at the checkout")),
-    )
-    status = models.CharField(
-        _("Status"), max_length=128, default=OPEN, choices=STATUS_CHOICES)
     date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
     date_merged = models.DateTimeField(_("Date merged"), null=True, blank=True)
     date_submitted = models.DateTimeField(_("Date submitted"), null=True,
@@ -43,9 +26,8 @@ class Basket(models.Model):
     def __str__(self):
         pk = self.pk
         date_created = self.date_created
-        status = self.status
 
-        return str(pk) + str(date_created) + '-' + status
+        return str(pk) + str(date_created)
 
 
 class BasketLine(models.Model):
@@ -72,6 +54,8 @@ class BasketLine(models.Model):
     price_incl_tax = models.DecimalField(
         _('Price incl. Tax'), decimal_places=2, max_digits=12, null=True)
 
+    # TODO: Need to add VAT field
+
     # Track date of first addition
     date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
     date_updated = models.DateTimeField(_("Date Updated"), auto_now=True, db_index=True)
@@ -88,8 +72,14 @@ class BasketLine(models.Model):
 
 
 class Sale(models.Model):
+    employee = models.ForeignKey(
+        AUTH_USER_MODEL,
+        null=True,
+        related_name='sales',
+        on_delete=models.CASCADE,
+        verbose_name=_("Employee"))
     reference = models.SlugField(
-        _("Reference"), max_length=128, db_index=True, unique=True)
+        _("Reference"), max_length=128, db_index=True)
 
     customer = models.ForeignKey(
         'customers.Customer',
@@ -109,6 +99,17 @@ class Sale(models.Model):
                                    related_name='sale',
                                    verbose_name=_('Payment'),
                                    null=True)
+    OPEN, MERGED, SAVED, FROZEN, SUBMITTED = (
+        "Open", "Merged", "Saved", "Frozen", "Submitted")
+    STATUS_CHOICES = (
+        (OPEN, _("Open - currently active")),
+        (MERGED, _("Merged - superceded by another basket")),
+        (SAVED, _("Saved - for items to be purchased later")),
+        (FROZEN, _("Frozen - the basket cannot be modified")),
+        (SUBMITTED, _("Submitted - has been ordered at the checkout")),
+    )
+    status = models.CharField(
+        _("Status"), max_length=128, default=SUBMITTED, choices=STATUS_CHOICES)
 
     date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
     date_updated = models.DateTimeField(_("Date Updated"), auto_now=True, db_index=True)

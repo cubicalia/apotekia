@@ -509,7 +509,7 @@
           <string>Payment</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="6" column="0">
+          <item row="4" column="0">
            <widget class="QPushButton" name="SubmitAndPrintButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -528,7 +528,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
+          <item row="4" column="1">
            <widget class="QPushButton" name="SaveForLaterButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -547,45 +547,14 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QRadioButton" name="CashradioButton">
-            <property name="text">
-             <string>Espèce</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QRadioButton" name="CheckradioButton">
-            <property name="text">
-             <string>Chèque</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QRadioButton" name="CardradioButton">
-            <property name="text">
-             <string>Carte</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QRadioButton" name="LetterradioButton">
-            <property name="text">
-             <string>Lettre</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" colspan="2">
+          <item row="2" column="0" colspan="2">
            <widget class="QLineEdit" name="PaymentReferenceField">
             <property name="placeholderText">
              <string>Réference Paiement (Nº de chèque, Lettre, Etc)</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="0" colspan="2">
+          <item row="3" column="0" colspan="2">
            <widget class="QPushButton" name="SubmitSaleButton">
             <property name="minimumSize">
              <size>
@@ -611,6 +580,9 @@ color: rgb(255, 255, 255);</string>
              <string>Ctrl+Return</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QComboBox" name="comboBox"/>
           </item>
          </layout>
         </widget>

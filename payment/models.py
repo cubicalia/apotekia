@@ -5,7 +5,7 @@ from apotekia import settings
 
 
 class PaymentSourceType(models.Model):
-    name = models.CharField(_("Name"), max_length=128, db_index=True)
+    name = models.CharField(_("Name"), max_length=128, db_index=True, unique=True)
 
     class Meta:
         app_label = 'payment'
@@ -42,7 +42,7 @@ class PaymentSource(models.Model):
         verbose_name_plural = _("Sources")
 
     def __str__(self):
-        description = _('Payment from type %(type)s') % {
+        description = _('%(type)s') % {
             'type': self.source_type}
         return description
 

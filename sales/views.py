@@ -129,11 +129,41 @@ class SaleDetailView(QDialog):
     def __init__(self, sale):
         super().__init__()
         self.sale = sale
+        self.basket_lines = self.sale.basket.lines.all()
+
+        self.basket_fields = ['Id', 'Product', 'Qty', 'TVA', 'PPV', 'Total']
+        self.basket_model = QStandardItemModel(len(self.basket_lines), 6)
+        self.basket_model.setHorizontalHeaderLabels(self.basket_fields)
 
         self.ui = Ui_SaleDetailView()
         self.ui.setupUi(self)
 
         self.ui.label_16.setText(self.sale.customer.get_full_name())
+        self.ui.label_21.setText(str(self.sale.payment.source))
+        self.ui.label_22.setText(self.sale.reference)
+        self.ui.label_23.setText(str(self.sale.payment.amount))
+
+        self.populate_basket_lines()
+
+    def populate_basket_lines(self):
+        for row, basket_line in enumerate(self.basket_lines):
+            pid = QStandardItem(str(basket_line.id))
+            product = QStandardItem(str(basket_line.product))
+            quantity = QStandardItem(str(basket_line.quantity))
+            vat = QStandardItem(str(basket_line.product.tax_rate))
+            ttc = QStandardItem(str(float(basket_line.price_incl_tax)))
+            total = QStandardItem('0000000')
+
+            self.basket_model.setItem(row, 0, pid)
+            self.basket_model.setItem(row, 1, product)
+            self.basket_model.setItem(row, 2, quantity)
+            self.basket_model.setItem(row, 3, vat)
+            self.basket_model.setItem(row, 4, ttc)
+            self.basket_model.setItem(row, 5, total)
+
+        self.ui.tableView.setModel(self.basket_model)
+
+
 
 
 
