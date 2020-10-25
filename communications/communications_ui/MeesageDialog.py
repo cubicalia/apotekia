@@ -14,7 +14,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MessageDialog(object):
     def setupUi(self, MessageDialog):
         MessageDialog.setObjectName("MessageDialog")
-        MessageDialog.resize(536, 169)
+        MessageDialog.resize(530, 126)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MessageDialog.sizePolicy().hasHeightForWidth())
+        MessageDialog.setSizePolicy(sizePolicy)
         self.gridLayout = QtWidgets.QGridLayout(MessageDialog)
         self.gridLayout.setObjectName("gridLayout")
         self.Ok_button = QtWidgets.QPushButton(MessageDialog)
