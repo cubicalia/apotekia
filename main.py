@@ -19,7 +19,7 @@ from inventory.views import InventoryDialog
 from catalog.views import ProductDialog
 from customers.views import CustomerDialog
 from banking.views import BankingDialog
-from sales.views import BasketDialog, SalesDialog
+from sales.views import BasketDialog, SalesDialog, OrdersDialog
 from communications.views import MessageDialog
 
 from apotekia import settings
@@ -71,6 +71,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.SaveForLaterButton.clicked.connect(self.save_basket)
         self.refreshButton.clicked.connect(self.refresh_all)
         self.pushButton_3.clicked.connect(self.open_baskets_dialog)
+        self.pushButton_13.clicked.connect(self.open_orders_dialog)
 
         self.initiate_basket_view()
 
@@ -113,6 +114,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def open_sales_dialog(self):
         dialog = SalesDialog()
+        dialog.exec_()
+        dialog.show()
+
+    def open_orders_dialog(self):
+        dialog = OrdersDialog()
         dialog.exec_()
         dialog.show()
 

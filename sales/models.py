@@ -1,6 +1,7 @@
 from decimal import Decimal as D
 
 from django.conf.global_settings import AUTH_USER_MODEL
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -9,10 +10,6 @@ from customers.models import Customer
 
 
 class Basket(models.Model):
-
-    # Basket statuses
-    # - Frozen is for when a basket is in the process of being submitted
-    #   and we need to prevent any changes to it.
     date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
     date_merged = models.DateTimeField(_("Date merged"), null=True, blank=True)
     date_submitted = models.DateTimeField(_("Date submitted"), null=True,
@@ -28,6 +25,16 @@ class Basket(models.Model):
         date_created = self.date_created
 
         return str(pk) + str(date_created)
+
+    def basket_total(self):
+        """
+       For executing a named method on each line of the basket
+       and returning the total.
+       """
+        total_ttc = D('0.00')
+        for line in self.lines.all():
+            total_ttc += line.line_total()
+        return total_ttc
 
 
 class BasketLine(models.Model):
@@ -69,6 +76,10 @@ class BasketLine(models.Model):
 
     def __str__(self):
         return 'Line {} of basket: '.format(self.pk) + str(self.basket.pk)
+
+    def line_total(self):
+        total = self.price_incl_tax * self.quantity
+        return total
 
 
 class Sale(models.Model):

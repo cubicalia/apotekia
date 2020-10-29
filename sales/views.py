@@ -7,7 +7,9 @@ from PyQt5.QtWidgets import QWidget, QDialog
 from sales.sales_ui.BasketsDialog import Ui_BasketDialog
 from sales.sales_ui.SalesDialog import Ui_SalesDialog
 from sales.sales_ui.SaleDetailView import Ui_SaleDetailView
-from sales.models import Basket, Sale
+from sales.sales_ui.OrdersDialog import Ui_OrdersDialog
+from sales.models import Basket, Sale, CustomerOrder, CustomerOrderLine
+from apotekia.settings import CUSTOMER_ORDER_PREFIX
 
 
 class BasketDialog(QDialog):
@@ -66,13 +68,12 @@ class SalesDialog(QDialog):
     def __init__(self, parent=None):
         super(SalesDialog, self).__init__(parent)
 
-        self.sales = Sale.objects.all()
-        self.sale_fields = ['Id', 'Customer', 'Date', 'Total TTC']
-        self.sale_model = QStandardItemModel(len(self.sales), 4)
+        self.sales = Sale.objects.all().order_by('-date_created')
+        self.sale_fields = ['Id', 'Customer', 'Date', 'Total TTC', 'Status']
+        self.sale_model = QStandardItemModel(len(self.sales), len(self.sale_fields))
         self.sale_model.setHorizontalHeaderLabels(self.sale_fields)
         self.sale_filter_proxy_model = QSortFilterProxyModel()
         self.sale_filter_proxy_model.setSourceModel(self.sale_model)
-
 
         self.ui = Ui_SalesDialog()
         self.ui.setupUi(self)
@@ -97,11 +98,13 @@ class SalesDialog(QDialog):
             pid = QStandardItem(str(sale.id))
             customer = QStandardItem(str(sale.customer.get_full_name()))
             date = QStandardItem(str(sale.date_created.strftime('%d/%m/%Y %H:%M:%S')))
-            total = QStandardItem(str(000))
+            total = QStandardItem(str(float(sale.basket.basket_total())))
+            status = QStandardItem(str(sale.status))
             self.sale_model.setItem(row, 0, pid)
             self.sale_model.setItem(row, 1, customer)
             self.sale_model.setItem(row, 2, date)
             self.sale_model.setItem(row, 3, total)
+            self.sale_model.setItem(row, 4, status)
 
     def convert_sale_to_invoice(self):
         pass
@@ -152,7 +155,7 @@ class SaleDetailView(QDialog):
             quantity = QStandardItem(str(basket_line.quantity))
             vat = QStandardItem(str(basket_line.product.tax_rate))
             ttc = QStandardItem(str(float(basket_line.price_incl_tax)))
-            total = QStandardItem('0000000')
+            total = QStandardItem(str(float(basket_line.line_total())))
 
             self.basket_model.setItem(row, 0, pid)
             self.basket_model.setItem(row, 1, product)
@@ -162,6 +165,21 @@ class SaleDetailView(QDialog):
             self.basket_model.setItem(row, 5, total)
 
         self.ui.tableView.setModel(self.basket_model)
+
+
+class OrdersDialog(QDialog):
+    def __init__(self, parent=None):
+        super(OrdersDialog, self).__init__(parent)
+
+        self.orders_data = CustomerOrder.objects.all().order_by('-date_placed')
+        self.order_fields = ['Id', 'Customer', 'Date', 'Total TTC', 'Status']
+        self.order_model = QStandardItemModel(len(self.orders_data), len(self.order_fields))
+
+        self.ui = Ui_OrdersDialog()
+        self.ui.setupUi(self)
+
+
+
 
 
 
