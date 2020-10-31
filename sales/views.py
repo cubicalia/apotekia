@@ -3,11 +3,12 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 from apotekia import db_setup
 
-from PyQt5.QtWidgets import QWidget, QDialog
+from PyQt5.QtWidgets import QWidget, QDialog, QWizard
 from sales.sales_ui.BasketsDialog import Ui_BasketDialog
 from sales.sales_ui.SalesDialog import Ui_SalesDialog
 from sales.sales_ui.SaleDetailView import Ui_SaleDetailView
 from sales.sales_ui.OrdersDialog import Ui_OrdersDialog
+from sales.sales_ui.NewOrderWizard import Ui_NewOrderWizard
 from sales.models import Basket, Sale, CustomerOrder, CustomerOrderLine
 from apotekia.settings import CUSTOMER_ORDER_PREFIX
 
@@ -81,6 +82,7 @@ class SalesDialog(QDialog):
         self.populate_sale_list()
         self.ui.tableView.selectionModel().selectionChanged.connect(self.get_selected_sale)
         self.selected_sale = None
+        self.ui.pushButton_3.clicked.connect(self.new_order)
         self.ui.pushButton_7.clicked.connect(self.show_sale_detail_view)
 
     def populate_sale_list(self):
@@ -126,6 +128,11 @@ class SalesDialog(QDialog):
             dialog = SaleDetailView(self.selected_sale)
             dialog.exec_()
             dialog.show()
+
+    def new_order(self):
+        wizard = NewOrderWizard()
+        wizard.exec_()
+        wizard.show()
 
 
 class SaleDetailView(QDialog):
@@ -177,6 +184,15 @@ class OrdersDialog(QDialog):
 
         self.ui = Ui_OrdersDialog()
         self.ui.setupUi(self)
+
+
+class NewOrderWizard(QWizard):
+    def __init__(self, parent=None):
+        super(NewOrderWizard, self).__init__(parent)
+
+        self.ui = Ui_NewOrderWizard()
+        self.ui.setupUi(self)
+
 
 
 
