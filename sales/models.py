@@ -105,7 +105,7 @@ class Sale(models.Model):
         related_name='sale',
         verbose_name=_("Basket"))
 
-    payment = models.OneToOneField('payment.Transaction',
+    payment = models.OneToOneField('payment.Payment',
                                    on_delete=models.SET_NULL,
                                    related_name='sale',
                                    verbose_name=_('Payment'),

@@ -1,14 +1,17 @@
-from PyQt5.QtCore import QSortFilterProxyModel, Qt, pyqtSlot
+from PyQt5.QtCore import QSortFilterProxyModel, Qt, pyqtSlot, QDate
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 from apotekia import db_setup
 
 from PyQt5.QtWidgets import QWidget, QDialog, QWizard
+
+from customers.models import Customer
 from sales.sales_ui.BasketsDialog import Ui_BasketDialog
 from sales.sales_ui.SalesDialog import Ui_SalesDialog
 from sales.sales_ui.SaleDetailView import Ui_SaleDetailView
 from sales.sales_ui.OrdersDialog import Ui_OrdersDialog
 from sales.sales_ui.NewOrderWizard import Ui_NewOrderWizard
+from payment.models import PaymentSource, PaymentConditions, Payment
 from sales.models import Basket, Sale, CustomerOrder, CustomerOrderLine
 from apotekia.settings import CUSTOMER_ORDER_PREFIX
 
@@ -193,11 +196,72 @@ class NewOrderWizard(QWizard):
         self.ui = Ui_NewOrderWizard()
         self.ui.setupUi(self)
 
+        # Customer Search
+        self.selected_customer = None
+        self.init_customer_selection()
 
+        # Date pick
+        self.ui.dateEdit.setDate(QDate.currentDate())
+        self.ui.dateEdit_2.setDate(QDate.currentDate())
+        self.ui.pushButton.clicked.connect(self.set_order_date_today)
+        self.ui.pushButton_2.clicked.connect(self.set_expedition_date_today)
 
+        self.order_date = self.ui.dateEdit.date().toPyDate()
+        self.expedition_date = self.ui.dateEdit_2.date().toPyDate()
 
+        # Payment
+        self.populate_payment_methods()
 
+    def init_customer_selection(self):
+        self.customer_fields = ['ID', 'Name', "CIN/ICE"]
+        self.customer_data = Customer.objects.all()
+        self.customer_model = QStandardItemModel(len(self.customer_data), len(self.customer_fields))
+        self.customer_model.setHorizontalHeaderLabels(self.customer_fields)
 
+        self.customer_filter_proxy_model = QSortFilterProxyModel()
+        self.customer_filter_proxy_model.setSourceModel(self.customer_model)
+        self.customer_filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.customer_filter_proxy_model.setFilterKeyColumn(1)
 
+        # Customer Ui Connections
+        self.ui.lineEdit.textChanged.connect(self.customer_filter_proxy_model.setFilterRegExp)
+        self.ui.tableView_2.setModel(self.customer_filter_proxy_model)
 
+        selection_model = self.ui.tableView_2.selectionModel()
+        selection_model.selectionChanged.connect(self.on_customer_selectionChanged)
+        self.populate_customer_model()
 
+    def populate_customer_model(self):
+        for row, customer in enumerate(self.customer_data):
+            pid = QStandardItem(str(customer.id))
+            name = QStandardItem(str(customer.get_full_name()))
+            CIN = QStandardItem(str(customer.id_number))
+            self.customer_model.setItem(row, 0, pid)
+            self.customer_model.setItem(row, 1, name)
+            self.customer_model.setItem(row, 2, CIN)
+
+    @pyqtSlot('QItemSelection', 'QItemSelection')
+    def on_customer_selectionChanged(self, selected):
+        item = selected.indexes()
+        if item:
+            pid = item[0].data()
+            self.selected_customer = Customer.objects.get(pk=pid)
+            self.populate_customer_info(self.selected_customer)
+
+    def populate_customer_info(self, customer):
+        self.ui.label_66.setText(customer.get_full_name())
+        if customer.address:
+            self.ui.label_67.setText(customer.address.summary)
+        else:
+            self.ui.label_67.setText('Customer has no specified address')
+
+    def set_order_date_today(self):
+        self.ui.dateEdit.setDate(QDate.currentDate())
+
+    def set_expedition_date_today(self):
+        self.ui.dateEdit_2.setDate(QDate.currentDate())
+
+    def populate_payment_methods(self):
+        methods = PaymentSource.objects.all()
+        for method in methods:
+            self.ui.comboBox_4.addItem(method.name)

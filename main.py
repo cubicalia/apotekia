@@ -11,7 +11,7 @@ from catalog.models import Product
 from customers.models import Customer
 from inventory.models import InventoryEntry
 from sales.models import Basket, BasketLine, Sale
-from payment.models import Transaction, PaymentSourceType, PaymentSource
+from payment.models import Payment, PaymentSource, PaymentConditions
 from django.contrib.auth.models import User
 
 from pos.pos_ui.PointOfSale import Ui_MainWindow
@@ -52,10 +52,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.basket_model = QStandardItemModel(len(self.products_in_basket.keys()), 4)
 
         self.client_for_basket = ''
-        self.payment_source_types = PaymentSourceType.objects.all()
+        self.payment_sources = PaymentSource.objects.all()
 
         self.total_basket = 0.00
-
 
         self.setupUi(self)
         self.initiate_module_menu()
@@ -63,7 +62,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.populate_products_list()
         self.populate_customers_list()
-        for item in self.payment_source_types:
+        for item in self.payment_sources:
             self.comboBox.addItem(item.name)
         self.pushButton_10.clicked.connect(self.remove_item_from_basket)
         self.pushButton_11.clicked.connect(self.clear_basket)
@@ -216,7 +215,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_customer_selectionChanged(self, selected):
         item = selected.indexes()
         if item:
-            self.label_4.setText(item[0].data())
+            self.label_13.setText(item[0].data())
             self.selected_customer = item[1].data()
             print(self.selected_customer)
 
@@ -348,7 +347,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             quantity = lines_dict[line]
             price_excl_tax = product.selling_price
             price_incl_tax = float(product.selling_price) + (
-                        float(product.selling_price) * float(product.tax_rate)) / 100
+                    float(product.selling_price) * float(product.tax_rate)) / 100
 
             basket_line = BasketLine(basket=basket,
                                      product=product,
@@ -372,7 +371,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         customer = Customer.objects.get(pk=customer_id)
 
         # Selecting the employee
-        employee = User.objects.get(pk=1) # TODO: Modify this after implementing the login
+        employee = User.objects.get(pk=1)  # TODO: Modify this after implementing the login
 
         # Creating the basket
         date_submitted = timezone.now()
@@ -397,15 +396,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             basket_line.save()
 
         # Selecting the payment
-        payment_source_type_text = self.comboBox.currentText()
-        payment_source_type = PaymentSourceType.objects.get(name=payment_source_type_text)
-        payment_source_reference = self.PaymentReferenceField.text()
-        payment_source = PaymentSource(reference=payment_source_reference,
-                                       source_type=payment_source_type)
-        payment_source.save()
-
-        payment = Transaction(source=payment_source,
-                              amount=self.total_basket)
+        payment_source_text = self.comboBox.currentText()
+        payment_source = PaymentSource.objects.get(name=payment_source_text)
+        payment_value_date = timezone.now()
+        payment = Payment(source=payment_source,
+                          date_value=payment_value_date,
+                          amount=self.total_basket)
         payment.save()
 
         sale = Sale(basket=basket,
@@ -433,7 +429,6 @@ if __name__ == "__main__":
     mainWin = MainWindow()
     mainWin.show()
     sys.exit(app.exec_())
-
 
 """ To run migrations within our code"""
 # call_command("makemigrations", interactive=False)

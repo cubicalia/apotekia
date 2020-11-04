@@ -4,12 +4,12 @@ from django.utils.translation import gettext_lazy as _
 from apotekia import settings
 
 
-class PaymentSourceType(models.Model):
+class PaymentSource(models.Model):
     name = models.CharField(_("Name"), max_length=128, db_index=True, unique=True)
 
     class Meta:
         app_label = 'payment'
-        ordering = ['name']
+        ordering = ['pk']
         verbose_name = _("Source Type")
         verbose_name_plural = _("Source Types")
 
@@ -17,37 +17,24 @@ class PaymentSourceType(models.Model):
         return self.name
 
 
-class PaymentSource(models.Model):
+class PaymentConditions(models.Model):
     """
-    This model tracks the Payment sources:
-    A Payment is tracked using its source type(credit card, debit card, cash, check, etc)
-    And this model refers to the actual instance of the source (eg: A specific credit card, check, etc)
+    This model informs the Payment condition of a transaction:
     """
-    reference = models.CharField(_("Reference"), max_length=255, blank=True)
-    source_type = models.ForeignKey(
-        'payment.PaymentSourceType',
-        on_delete=models.CASCADE,
-        related_name="sources",
-        verbose_name=_("Source Type"))
-    currency = models.CharField(
-        _("Currency"), max_length=12, default=settings.DEFAULT_CURRENCY)
-
-    # Reference number for this payment source.  This is often used to look up
-    # a transaction model for a particular payment partner.
+    name = models.CharField(_("Name"), max_length=128, db_index=True, unique=True)
+    description = models.TextField(_('Description'), blank=True, null=True)
 
     class Meta:
         app_label = 'payment'
         ordering = ['pk']
-        verbose_name = _("Source")
-        verbose_name_plural = _("Sources")
+        verbose_name = _("Payment Condition")
+        verbose_name_plural = _("Payment Conditions")
 
     def __str__(self):
-        description = _('%(type)s') % {
-            'type': self.source_type}
-        return description
+        return self.name + '-' + self.description
 
 
-class Transaction(models.Model):
+class Payment(models.Model):
     source = models.ForeignKey(
         'payment.PaymentSource',
         on_delete=models.CASCADE,
@@ -65,6 +52,7 @@ class Transaction(models.Model):
     reference = models.CharField(_("Reference"), max_length=128, blank=True)
     status = models.CharField(_("Status"), max_length=128, blank=True)
     date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
+    date_value = models.DateTimeField(_("Date Of Value"))
 
     def __str__(self):
         return _("%(reference)s of %(amount).2f") % {
@@ -74,5 +62,5 @@ class Transaction(models.Model):
     class Meta:
         app_label = 'payment'
         ordering = ['-date_created']
-        verbose_name = _("Transaction")
-        verbose_name_plural = _("Transactions")
+        verbose_name = _("Payment")
+        verbose_name_plural = _("Payments")
