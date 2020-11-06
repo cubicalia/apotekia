@@ -14,6 +14,7 @@ from sales.models import Basket, BasketLine, Sale
 from payment.models import Payment, PaymentSource, PaymentConditions
 from django.contrib.auth.models import User
 
+from apotekia.user_settings import EstablishmentInfoWidget
 from pos.pos_ui.PointOfSale import Ui_MainWindow
 from inventory.views import InventoryDialog
 from catalog.views import ProductDialog
@@ -60,6 +61,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.initiate_module_menu()
         self.showMaximized()
 
+        # MENU ACTIONS
+        self.actionEstablishment.triggered.connect(self.establishmentInfo)
+
         self.populate_products_list()
         self.populate_customers_list()
         for item in self.payment_sources:
@@ -73,6 +77,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_13.clicked.connect(self.open_orders_dialog)
 
         self.initiate_basket_view()
+
+    """
+    MENU ACTIONS
+    """
+    def establishmentInfo(self):
+        dialog = EstablishmentInfoWidget()
+        dialog.exec_()
+        dialog.show()
 
     """
     Initiating The Modules Left Vertical Menu

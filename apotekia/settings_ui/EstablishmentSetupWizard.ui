@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EstablishmentSetupWizard</class>
+ <widget class="QWizard" name="EstablishmentSetupWizard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>617</width>
+    <height>540</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Establishment Setup</string>
+  </property>
+  <property name="wizardStyle">
+   <enum>QWizard::ModernStyle</enum>
+  </property>
+  <widget class="QWizardPage" name="wizardPage1">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Establishmemt Info</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Address Line 2</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_3</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Address Line 1</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_2</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Phone</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_8</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Email</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_10</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Country</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_6</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Fax</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_9</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>CP</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_4</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Website</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_11</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_19">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Currency</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_7</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Nom/Raison Sociale</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>City</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_5</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Logo</string>
+         </property>
+         <property name="buddy">
+          <cstring>pushButton</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="2">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_2"/>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_3"/>
+       </item>
+       <item row="4" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_4"/>
+       </item>
+       <item row="5" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_5"/>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_6"/>
+       </item>
+       <item row="7" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_7"/>
+       </item>
+       <item row="8" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_8"/>
+       </item>
+       <item row="9" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_9"/>
+       </item>
+       <item row="11" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_10"/>
+       </item>
+       <item row="12" column="1" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_11"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage2">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Professionnal Info</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="3" column="2">
+        <widget class="QLineEdit" name="lineEdit_13"/>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLineEdit" name="lineEdit_14"/>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLineEdit" name="lineEdit_17"/>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="lineEdit_15"/>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLineEdit" name="lineEdit_16"/>
+       </item>
+       <item row="8" column="2">
+        <widget class="QLineEdit" name="lineEdit_18"/>
+       </item>
+       <item row="9" column="2">
+        <widget class="QLineEdit" name="lineEdit_19"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_38">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>CEO</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_12</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_36">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Capital</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_13</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_37">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Type</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_14</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_39">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Id.Prof 1/ICE</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_15</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_46">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Id.Prof 2/RC</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_16</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_44">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Id.Prof 3/Patente</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_17</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_45">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Id.Prof 4/IF</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_18</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_41">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Id.Prof 5/CNSS</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_19</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_42">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Debut Exercice Fiscall</string>
+         </property>
+         <property name="buddy">
+          <cstring>dateEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_40">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Id.Prof 6/NuméroTVA</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_20</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_43">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Objets de la société</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2">
+        <widget class="QLineEdit" name="lineEdit_20"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="lineEdit_12"/>
+       </item>
+       <item row="12" column="2">
+        <widget class="QDateEdit" name="dateEdit"/>
+       </item>
+       <item row="11" column="2">
+        <widget class="QTextEdit" name="textEdit"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit_4</tabstop>
+  <tabstop>lineEdit_5</tabstop>
+  <tabstop>lineEdit_6</tabstop>
+  <tabstop>lineEdit_7</tabstop>
+  <tabstop>lineEdit_8</tabstop>
+  <tabstop>lineEdit_9</tabstop>
+  <tabstop>lineEdit_10</tabstop>
+  <tabstop>lineEdit_11</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>lineEdit_12</tabstop>
+  <tabstop>lineEdit_13</tabstop>
+  <tabstop>lineEdit_14</tabstop>
+  <tabstop>lineEdit_15</tabstop>
+  <tabstop>lineEdit_16</tabstop>
+  <tabstop>lineEdit_17</tabstop>
+  <tabstop>lineEdit_18</tabstop>
+  <tabstop>lineEdit_19</tabstop>
+  <tabstop>lineEdit_20</tabstop>
+  <tabstop>textEdit</tabstop>
+  <tabstop>dateEdit</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
